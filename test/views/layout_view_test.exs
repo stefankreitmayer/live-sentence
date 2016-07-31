@@ -1,3 +1,3 @@
-defmodule ElmHeroku.LayoutViewTest do
-  use ElmHeroku.ConnCase, async: true
+defmodule LiveSentence.LayoutViewTest do
+  use LiveSentence.ConnCase, async: true
 end

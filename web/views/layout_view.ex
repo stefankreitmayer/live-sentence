@@ -1,3 +1,3 @@
-defmodule ElmHeroku.LayoutView do
-  use ElmHeroku.Web, :view
+defmodule LiveSentence.LayoutView do
+  use LiveSentence.Web, :view
 end

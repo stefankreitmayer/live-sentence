@@ -1,3 +1,3 @@
-defmodule ElmHeroku.PageView do
-  use ElmHeroku.Web, :view
+defmodule LiveSentence.PageView do
+  use LiveSentence.Web, :view
 end

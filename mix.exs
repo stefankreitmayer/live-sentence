@@ -1,8 +1,8 @@
-defmodule ElmHeroku.Mixfile do
+defmodule LiveSentence.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :elm_heroku,
+    [app: :live_sentence,
      version: "0.0.1",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -17,7 +17,7 @@ defmodule ElmHeroku.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {ElmHeroku, []},
+    [mod: {LiveSentence, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex]]
   end

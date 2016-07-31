@@ -7,7 +7,7 @@
     %meta(name="description" content="")
     %meta(name="author" content="")
 
-    %title New Project
+    %title LiveSentence
     %link(rel="stylesheet" href='#{static_path(@conn, "/css/app.css")}')
     %script(src='#{static_path(@conn, "/js/app.js")}')
 
@@ -24,7 +24,7 @@
           -#   - else
           -#     = link "Login", to: session_path(@conn, :new), class: "button"
           %a{href: '/'}
-            %span.logo
+            -# %span.logo
 
       .alert-boxes
         %p.alert.alert-success(role="alert")= get_flash(@conn, :success)
@@ -32,5 +32,5 @@
         %p.alert.alert-warning(role="alert")= get_flash(@conn, :warning)
         %p.alert.alert-danger(role="alert")= get_flash(@conn, :error)
 
-      %main(role="main")
-        = render @view_module, @view_template, assigns
+    %main(role="main")
+      = render @view_module, @view_template, assigns

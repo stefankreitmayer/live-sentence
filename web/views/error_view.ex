@@ -1,5 +1,5 @@
-defmodule ElmHeroku.ErrorView do
-  use ElmHeroku.Web, :view
+defmodule LiveSentence.ErrorView do
+  use LiveSentence.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

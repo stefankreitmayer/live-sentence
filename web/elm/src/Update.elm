@@ -1,7 +1,7 @@
 module Update exposing (..)
 
 import Model exposing (..)
-import Subscription exposing (..)
+import Msg exposing (..)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)

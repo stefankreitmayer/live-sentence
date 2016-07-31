@@ -1,5 +1,5 @@
-defmodule ElmHeroku.PageControllerTest do
-  use ElmHeroku.ConnCase
+defmodule LiveSentence.PageControllerTest do
+  use LiveSentence.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

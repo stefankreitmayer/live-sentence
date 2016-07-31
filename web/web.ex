@@ -1,12 +1,12 @@
-defmodule ElmHeroku.Web do
+defmodule LiveSentence.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use ElmHeroku.Web, :controller
-      use ElmHeroku.Web, :view
+      use LiveSentence.Web, :controller
+      use LiveSentence.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule ElmHeroku.Web do
     quote do
       use Phoenix.Controller
 
-      alias ElmHeroku.Repo
+      alias LiveSentence.Repo
       import Ecto
       import Ecto.Query
 
-      import ElmHeroku.Router.Helpers
-      import ElmHeroku.Gettext
+      import LiveSentence.Router.Helpers
+      import LiveSentence.Gettext
     end
   end
 
@@ -49,9 +49,9 @@ defmodule ElmHeroku.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import ElmHeroku.Router.Helpers
-      import ElmHeroku.ErrorHelpers
-      import ElmHeroku.Gettext
+      import LiveSentence.Router.Helpers
+      import LiveSentence.ErrorHelpers
+      import LiveSentence.Gettext
     end
   end
 
@@ -65,10 +65,10 @@ defmodule ElmHeroku.Web do
     quote do
       use Phoenix.Channel
 
-      alias ElmHeroku.Repo
+      alias LiveSentence.Repo
       import Ecto
       import Ecto.Query
-      import ElmHeroku.Gettext
+      import LiveSentence.Gettext
     end
   end
 

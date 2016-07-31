@@ -6,15 +6,15 @@
 use Mix.Config
 
 # General application configuration
-config :elm_heroku,
-  ecto_repos: [ElmHeroku.Repo]
+config :live_sentence,
+  ecto_repos: [LiveSentence.Repo]
 
 # Configures the endpoint
-config :elm_heroku, ElmHeroku.Endpoint,
+config :live_sentence, LiveSentence.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "2+QDQnZUl1UX7+C8oJnWOuQRPh3J6yZzNrPyYM7yFKhPL1z0lceDQFOVcv4Vkfex",
-  render_errors: [view: ElmHeroku.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: ElmHeroku.PubSub,
+  render_errors: [view: LiveSentence.ErrorView, accepts: ~w(html json)],
+  pubsub: [name: LiveSentence.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger

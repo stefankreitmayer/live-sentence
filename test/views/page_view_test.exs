@@ -1,3 +1,3 @@
-defmodule ElmHeroku.PageViewTest do
-  use ElmHeroku.ConnCase, async: true
+defmodule LiveSentence.PageViewTest do
+  use LiveSentence.ConnCase, async: true
 end

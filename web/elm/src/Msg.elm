@@ -1,4 +1,4 @@
-module Subscription exposing (..)
+module Msg exposing (..)
 
 import Html exposing (Html)
 

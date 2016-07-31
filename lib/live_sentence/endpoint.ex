@@ -1,14 +1,14 @@
-defmodule ElmHeroku.Endpoint do
-  use Phoenix.Endpoint, otp_app: :elm_heroku
+defmodule LiveSentence.Endpoint do
+  use Phoenix.Endpoint, otp_app: :live_sentence
 
-  socket "/socket", ElmHeroku.UserSocket
+  socket "/socket", LiveSentence.UserSocket
 
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
-    at: "/", from: :elm_heroku, gzip: false,
+    at: "/", from: :live_sentence, gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
@@ -35,8 +35,8 @@ defmodule ElmHeroku.Endpoint do
   # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
-    key: "_elm_heroku_key",
+    key: "_live_sentence_key",
     signing_salt: "kRyLPoYl"
 
-  plug ElmHeroku.Router
+  plug LiveSentence.Router
 end

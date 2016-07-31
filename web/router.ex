@@ -1,5 +1,5 @@
-defmodule ElmHeroku.Router do
-  use ElmHeroku.Web, :router
+defmodule LiveSentence.Router do
+  use LiveSentence.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,14 +13,14 @@ defmodule ElmHeroku.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", ElmHeroku do
+  scope "/", LiveSentence do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", ElmHeroku do
+  # scope "/api", LiveSentence do
   #   pipe_through :api
   # end
 end
