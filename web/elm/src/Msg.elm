@@ -1,12 +1,25 @@
 module Msg exposing (..)
 
 import Html exposing (Html)
+import Window
+import Task
 
 import Model exposing (..)
 
 
-type Msg = NoOp
+type Msg
+  = ResizeWindow (Int,Int)
+  | NoOp
+
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-  [] |> Sub.batch
+  let
+      window = Window.resizes (\{width,height} -> ResizeWindow (width,height))
+  in
+      [ window ] |> Sub.batch
+
+
+initialWindowSizeCommand : Cmd Msg
+initialWindowSizeCommand =
+  Task.perform (\_ -> NoOp) (\{width,height} -> ResizeWindow (width,height)) Window.size

@@ -6,7 +6,7 @@ import Html.App as Html
 import Model exposing (Model,initialModel)
 import Update exposing (update)
 import View exposing (view)
-import Msg exposing (subscriptions)
+import Msg exposing (subscriptions,initialWindowSizeCommand)
 
 
 --------------------------------------------------------------------------- MAIN
@@ -15,7 +15,7 @@ import Msg exposing (subscriptions)
 main : Program Never
 main =
   Html.program
-  { init = (initialModel, Cmd.none)
+  { init = (initialModel, initialWindowSizeCommand)
   , update = update
   , view = view
   , subscriptions = subscriptions }
