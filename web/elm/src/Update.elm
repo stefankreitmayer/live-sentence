@@ -14,5 +14,12 @@ update action ({ui} as model) =
       in
          (model', Cmd.none)
 
+    ChangeScreen screen ->
+      let
+          ui' = { ui | screen = screen }
+          model' = { model | ui = ui' }
+      in
+         (model', Cmd.none)
+
     NoOp ->
       (model, Cmd.none)

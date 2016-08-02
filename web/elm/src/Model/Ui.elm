@@ -5,10 +5,11 @@ type alias Ui =
   , screen : Screen }
 
 type Screen
-  = Whiteboard
+  = RoleSelection
+  | Whiteboard
 
 
 initialUi : Ui
 initialUi =
   { windowSize = (500,500)
-  , screen = Whiteboard }
+  , screen = RoleSelection }

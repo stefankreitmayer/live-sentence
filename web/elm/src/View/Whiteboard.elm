@@ -1,16 +1,15 @@
 module View.Whiteboard exposing (renderWhiteboard)
 
-import Json.Encode
 import Html exposing (Html)
-import VirtualDom
 import String
 
 import Svg exposing (Svg)
-import Svg.Attributes exposing (..)
+import Svg.Attributes
 
 import Model exposing (..)
 import Model.Ui exposing (..)
 
+import View.Common exposing (..)
 import View.Color exposing (..)
 
 import Msg exposing (..)
@@ -22,19 +21,8 @@ renderWhiteboard {ui,sentence} =
       parts = renderParts ui.windowSize sentence
   in
       Svg.svg
-        (svgAttributes ui.windowSize)
+        (fullscreenSvgAttributes ui.windowSize)
         [ parts ]
-
-
-svgAttributes : (Int,Int) -> List (Svg.Attribute Msg)
-svgAttributes (w,h) =
-  [ Svg.Attributes.width (toString w)
-  , Svg.Attributes.height (toString h)
-  , Svg.Attributes.viewBox <| "0 0 " ++ (toString w) ++ " " ++ (toString h)
-  , VirtualDom.property "xmlns:xlink" (Json.Encode.string "http://www.w3.org/1999/xlink")
-  , Svg.Attributes.version "1.1"
-  , Svg.Attributes.style "position: fixed;"
-  ]
 
 
 renderParts : (Int,Int) -> List Atom -> Svg Msg
@@ -74,29 +62,9 @@ renderPartText h fontSize posX atom =
       renderTextLine x y fontSize atom
 
 
-renderTextLine : Int -> Int -> Int -> String -> Svg Msg
-renderTextLine x y fontSize content =
-  let
-      attributes = [ Svg.Attributes.x <| toString x
-                   , Svg.Attributes.y <| toString y
-                   , Svg.Attributes.fontSize <| toString fontSize
-                   , Svg.Attributes.textAnchor "middle"
-                   , Svg.Attributes.fontFamily "monospace"
-                   , Svg.Attributes.fill "black"
-                   ]
-  in
-      Svg.text' attributes [ Svg.text content ]
-
-
 renderPartBackground : Int -> Int -> Int -> String -> Svg Msg
-renderPartBackground height x width color =
-  Svg.rect
-    [ Svg.Attributes.x (toString x)
-    , Svg.Attributes.y "0"
-    , Svg.Attributes.width (toString width)
-    , Svg.Attributes.height (toString height)
-    , Svg.Attributes.fill color ]
-    []
+renderPartBackground h x width color =
+  renderRect x 0 width h color
 
 
 padding : Int

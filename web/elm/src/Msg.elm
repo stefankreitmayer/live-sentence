@@ -5,10 +5,12 @@ import Window
 import Task
 
 import Model exposing (..)
+import Model.Ui exposing (..)
 
 
 type Msg
   = ResizeWindow (Int,Int)
+  | ChangeScreen Screen
   | NoOp
 
 
