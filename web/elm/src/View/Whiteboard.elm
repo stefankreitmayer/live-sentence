@@ -11,6 +11,8 @@ import Svg.Attributes exposing (..)
 import Model exposing (..)
 import Model.Ui exposing (..)
 
+import View.Color exposing (..)
+
 import Msg exposing (..)
 
 
@@ -55,9 +57,12 @@ renderParts (w,h) atoms =
           widths
       texts =
         List.map2 (renderPartText h fontSize) textPositions atoms
+      backgrounds =
+        List.map3 (renderPartBackground h) leftPositions widths partColors
   in
-      texts
-      |> Svg.g []
+      Svg.g
+        []
+        (backgrounds ++ texts)
 
 
 renderPartText : Int -> Int -> Int -> Atom -> Svg Msg
@@ -81,3 +86,14 @@ renderTextLine x y fontSize content =
                    ]
   in
       Svg.text' attributes [ Svg.text content ]
+
+
+renderPartBackground : Int -> Int -> Int -> String -> Svg Msg
+renderPartBackground height x width color =
+  Svg.rect
+    [ Svg.Attributes.x (toString x)
+    , Svg.Attributes.y "0"
+    , Svg.Attributes.width (toString width)
+    , Svg.Attributes.height (toString height)
+    , Svg.Attributes.fill color ]
+    []

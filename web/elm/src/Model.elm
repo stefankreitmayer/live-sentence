@@ -13,4 +13,4 @@ type alias Atom = String
 initialModel : Model
 initialModel =
   { ui = initialUi
-  , sentence = [ "The brown fox", "jumps", "like there's no tomorrow" ] }
+  , sentence = [ "The brown fox", "jumps", "over an incredible number of fences", "like there's no tomorrow" ] }
