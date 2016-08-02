@@ -40,15 +40,15 @@ svgAttributes (w,h) =
 renderParts : (Int,Int) -> List Atom -> Svg Msg
 renderParts (w,h) atoms =
   let
-      lengths = atoms |> List.map String.length
+      lengths = atoms
+      |> List.map String.length
+      |> List.map ((+) padding)
       totalLength = List.sum lengths
       pixelsPerCharacter = (toFloat w) / (toFloat totalLength)
-      fontSize = pixelsPerCharacter * 1.3 |> floor
-      partWidth atom =
-        (String.length atom |> toFloat) * pixelsPerCharacter |> floor
+      fontSize = pixelsPerCharacter * 1.6 |> floor
       widths =
-        atoms
-        |> List.map partWidth
+        lengths
+        |> List.map (\l -> (toFloat l) * pixelsPerCharacter |> ceiling)
       leftPositions = widths |> List.scanl (+) 0
       textPositions =
         List.map2
@@ -97,3 +97,7 @@ renderPartBackground height x width color =
     , Svg.Attributes.height (toString height)
     , Svg.Attributes.fill color ]
     []
+
+
+padding : Int
+padding = 2
