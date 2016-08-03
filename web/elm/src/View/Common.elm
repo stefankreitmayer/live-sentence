@@ -53,3 +53,23 @@ internalLink screen children =
   Svg.a
     [ Svg.Events.onClick (ChangeScreen screen) ]
     children
+
+
+renderMenuButton : (Int,Int) -> Svg Msg
+renderMenuButton (w,h) =
+  let
+      width = 80
+      height = 65
+      margin = 0
+      padding = 20
+      x = margin
+      y = margin
+      color = "rgba(0,0,0,.3)"
+      transparent = "rgba(0,0,0,0)"
+      background = renderRect x y width height transparent
+      renderStripe index =
+        renderRect (x+padding) (y+index*10+padding) (width-padding*2) 5 color
+      stripes = [ 0..2 ] |> List.map renderStripe
+      target = RoleSelection
+  in
+      internalLink target ([ background ] ++ stripes)

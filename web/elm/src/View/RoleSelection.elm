@@ -42,4 +42,4 @@ renderButton x y width height color text target =
       background = renderRect (x-width//2) (y-height//2) width height color
       label = renderTextLine x (y+height//6) (height//2) text
   in
-     internalLink target [ background, label ]
+      internalLink target [ background, label ]
