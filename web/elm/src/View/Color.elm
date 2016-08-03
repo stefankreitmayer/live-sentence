@@ -1,8 +1,10 @@
 module View.Color exposing (..)
 
+import Model.Part exposing (..)
 
-partColors : List String
-partColors =
+
+palette : List String
+palette =
   [ "#1f78b4"
   , "#b2df8a"
   , "#33a02c"
@@ -17,3 +19,11 @@ partColors =
   -- , "rgb(27,61,15)"
   -- ]
 
+
+partColor : List Part -> Part -> String
+partColor parts part =
+  List.map2 (,) parts palette
+  |> List.filter (\(p,color) -> p==part)
+  |> List.map (\(_,color) -> color)
+  |> List.head
+  |> Maybe.withDefault "red"

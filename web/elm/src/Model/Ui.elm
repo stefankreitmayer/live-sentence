@@ -1,5 +1,8 @@
 module Model.Ui exposing (..)
 
+import Model.Part exposing (..)
+
+
 type alias Ui =
   { windowSize : (Int, Int)
   , screen : Screen }
@@ -7,6 +10,7 @@ type alias Ui =
 type Screen
   = RoleSelection
   | Whiteboard
+  | PartScreen Part
 
 
 initialUi : Ui

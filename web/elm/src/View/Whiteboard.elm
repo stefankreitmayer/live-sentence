@@ -8,6 +8,7 @@ import Svg.Attributes
 
 import Model exposing (..)
 import Model.Ui exposing (..)
+import Model.Part exposing (..)
 
 import View.Common exposing (..)
 import View.Color exposing (..)
@@ -47,7 +48,7 @@ renderParts (w,h) atoms =
       texts =
         List.map2 (renderPartText h fontSize) textPositions atoms
       backgrounds =
-        List.map3 (renderPartBackground h) leftPositions widths partColors
+        List.map3 (renderPartBackground h) leftPositions widths palette
   in
       Svg.g
         []

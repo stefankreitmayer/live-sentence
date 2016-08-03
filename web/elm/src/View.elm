@@ -8,6 +8,7 @@ import Model.Ui exposing (..)
 
 import View.RoleSelection exposing (..)
 import View.Whiteboard exposing (..)
+import View.Part exposing (..)
 
 import Msg exposing (..)
 
@@ -20,3 +21,6 @@ view model =
 
     Whiteboard ->
       renderWhiteboard model
+
+    PartScreen part ->
+      renderPartScreen part model

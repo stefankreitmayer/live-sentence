@@ -12,14 +12,14 @@ update action ({ui} as model) =
           ui' = { ui | windowSize = dimensions }
           model' = { model | ui = ui' }
       in
-         (model', Cmd.none)
+          (model', Cmd.none)
 
     ChangeScreen screen ->
       let
           ui' = { ui | screen = screen }
           model' = { model | ui = ui' }
       in
-         (model', Cmd.none)
+          (model', Cmd.none)
 
     NoOp ->
       (model, Cmd.none)
