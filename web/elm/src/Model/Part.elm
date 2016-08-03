@@ -5,4 +5,3 @@ type alias Part =
   , atoms : List Atom }
 
 type alias Atom = String
-

@@ -6,11 +6,13 @@ import Task
 
 import Model exposing (..)
 import Model.Ui exposing (..)
+import Model.Part exposing (..)
 
 
 type Msg
   = ResizeWindow (Int,Int)
   | ChangeScreen Screen
+  | ChangeAtom Part Atom
   | NoOp
 
 

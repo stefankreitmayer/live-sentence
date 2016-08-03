@@ -21,5 +21,16 @@ update action ({ui} as model) =
       in
           (model', Cmd.none)
 
+    ChangeAtom part atom ->
+      let
+          sentence' =
+            List.map2
+              (\a p -> if p==part then atom else a)
+              model.sentence
+              model.parts
+          model' = { model | sentence = sentence' }
+      in
+          (model', Cmd.none)
+
     NoOp ->
       (model, Cmd.none)

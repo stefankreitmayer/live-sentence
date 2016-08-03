@@ -48,10 +48,10 @@ renderRect x y width height color =
     []
 
 
-internalLink : Screen -> List (Svg Msg) -> Svg Msg
-internalLink screen children =
+internalLink : Msg -> List (Svg Msg) -> Svg Msg
+internalLink msg children =
   Svg.a
-    [ Svg.Events.onClick (ChangeScreen screen) ]
+    [ Svg.Events.onClick msg ]
     children
 
 
@@ -70,6 +70,15 @@ renderMenuButton (w,h) =
       renderStripe index =
         renderRect (x+padding) (y+index*10+padding) (width-padding*2) 5 color
       stripes = [ 0..2 ] |> List.map renderStripe
-      target = RoleSelection
+      target = ChangeScreen RoleSelection
   in
       internalLink target ([ background ] ++ stripes)
+
+
+renderButton : Msg -> Int -> Int -> Int -> Int -> String -> String -> Svg Msg
+renderButton target width height x y color text =
+  let
+      background = renderRect (x-width//2) (y-height//2) width height color
+      label = renderTextLine x (y+height//10) (height//3) text
+  in
+      internalLink target [ background, label ]
