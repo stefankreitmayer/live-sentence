@@ -12,25 +12,17 @@
     %script(src='#{static_path(@conn, "/js/app.js")}')
 
   %body
-    .container
-      %header.header
-        %nav(role="navigation")
-          -# %ul.nav.nav-pills.pull-right
-          -#   - if logged_in?(@conn) do
-          -#     %li.logged-in-user-name
-          -#       = "#{current_user(@conn).first} #{current_user(@conn).last}"
-          -#     %li
-          -#       = link "Logout", to: session_path(@conn, :delete), method: :delete
-          -#   - else
-          -#     = link "Login", to: session_path(@conn, :new), class: "button"
-          %a{href: '/'}
-            -# %span.logo
-
-      .alert-boxes
-        %p.alert.alert-success(role="alert")= get_flash(@conn, :success)
-        %p.alert.alert-info(role="alert")= get_flash(@conn, :info)
-        %p.alert.alert-warning(role="alert")= get_flash(@conn, :warning)
-        %p.alert.alert-danger(role="alert")= get_flash(@conn, :error)
-
-    %main(role="main")
-      = render @view_module, @view_template, assigns
+    %noscript
+      %div{:style => "text-align: center; font-family: Helvetica,Verdana,sans; padding: 1em; position: absolute; top: 50%; left: 50%; margin-right: -50%; transform: translate(-50%, -50%);"}
+        %h1 JavaScript required
+        %p
+          To continue using this website please
+          %br
+          enable JavaScript in your browser.
+          %br
+          %a{href: "http://enable-javascript.com", target: "_blank"} (Learn how)
+        %p Then reload the page.
+    %script(type="text/javascript")
+      <!--
+      var app = Elm.Main.fullscreen();
+      //-->
