@@ -2,6 +2,7 @@ module View.Common exposing (..)
 
 import Json.Encode
 import VirtualDom
+import String
 
 import Svg exposing (Svg)
 import Svg.Attributes
@@ -29,9 +30,12 @@ renderTextLine x y fontSize text =
       attributes = [ Svg.Attributes.x <| toString x
                    , Svg.Attributes.y <| toString y
                    , Svg.Attributes.fontSize <| toString fontSize
+                   , Svg.Attributes.textDecoration "none"
                    , Svg.Attributes.textAnchor "middle"
+                   , Svg.Attributes.alignmentBaseline "middle"
                    , Svg.Attributes.fontFamily "monospace"
                    , Svg.Attributes.fill "black"
+                   , Svg.Attributes.style "pointer-events: none"
                    ]
   in
       Svg.text' attributes [ Svg.text text ]
@@ -78,11 +82,13 @@ renderMenuButton (w,h) =
 renderButton : Msg -> Int -> Int -> Int -> Int -> String -> String -> Bool -> Svg Msg
 renderButton target width height x y color text enabled =
   let
-      background = renderRect (x-width//2) (y-height//2) width height color
-      label = renderTextLine x (y+height//10) (height//3) text
-      children = [ background, label ]
+      background = renderRect (x-width//2) (y-height*58//100) width height color
+      fontSize = width * 3 // 2 // (String.length text) |> min (height*90//100)
+      label = renderTextLine x y fontSize text
+      children =
+        if enabled then
+            [ internalLink target [ background ], label ]
+        else
+            [ background, label ]
   in
-      if enabled then
-          internalLink target children
-      else
-          Svg.g [] children
+      Svg.g [] children

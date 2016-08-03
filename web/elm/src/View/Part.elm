@@ -44,9 +44,9 @@ renderAtomButton (w,h) part atoms index atom =
       width = w
       height = h//8
       x = w//2
-      y = height * index + h//6
+      y = height * index + h*17//100
       clickable = not (atom == part.chosenAtom)
-      color = "rgba(0,0,0," ++ (if clickable then "0" else ".1") ++ ")"
+      color = "rgba(0,0,0," ++ (if clickable then "0" else ".15") ++ ")"
       text = atom
   in
       renderButton target width height x y color text clickable

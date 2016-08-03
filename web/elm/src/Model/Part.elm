@@ -13,16 +13,16 @@ type alias Atom = String
 
 dummyParts : List Part
 dummyParts =
-  [ createPart "subject" "the dog,the goose,nobody"
-  , createPart "verb" "chases,ignores,thinks of"
-  , createPart "object" "butterflies,dreams,you"
-  , createPart "blah" "around the house,tonight,like there's no tomorrow,like most of us have probably done at one point or another" ]
+  [ createPart "subject" "the dog;the goose;nobody"
+  , createPart "verb" "chases;ignores;thinks of"
+  , createPart "object" "butterflies;dreams;you;life, the universe, and everything;the usual suspects;the obvious;nothing;someone special;random stuff"
+  , createPart "blah" "around the house;tonight;like there's no tomorrow;like most of us have probably done at one point or another" ]
 
 
 createPart : String -> String -> Part
 createPart name stringOfAtoms =
   let
-      atoms = String.split "," stringOfAtoms
+      atoms = String.split ";" stringOfAtoms
       chosenAtom = atoms |> List.head |> Maybe.withDefault "-"
   in
       Part name atoms chosenAtom
