@@ -12,7 +12,7 @@ import Model.Part exposing (..)
 type Msg
   = ResizeWindow (Int,Int)
   | ChangeScreen Screen
-  | ChangeAtom Part Atom
+  | ChangePart Part
   | NoOp
 
 

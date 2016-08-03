@@ -5,6 +5,7 @@ import Html.Attributes exposing (class)
 
 import Model exposing (..)
 import Model.Ui exposing (..)
+import Model.Part exposing (..)
 
 import View.RoleSelection exposing (..)
 import View.Whiteboard exposing (..)
@@ -15,12 +16,21 @@ import Msg exposing (..)
 
 view : Model -> Html Msg
 view model =
-  case model.ui.screen of
-    RoleSelection ->
-      renderRoleSelection model
+  let
+      fn =
+        case model.ui.screen of
+          RoleSelection ->
+            renderRoleSelection
 
-    Whiteboard ->
-      renderWhiteboard model
+          Whiteboard ->
+            renderWhiteboard
 
-    PartScreen part ->
-      renderPartScreen part model
+          PartScreen partName ->
+            case (findPart model.parts partName) of
+              Just part ->
+                renderPartScreen part
+
+              Nothing ->
+                renderRoleSelection
+  in
+      fn model

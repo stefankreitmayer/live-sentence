@@ -75,10 +75,14 @@ renderMenuButton (w,h) =
       internalLink target ([ background ] ++ stripes)
 
 
-renderButton : Msg -> Int -> Int -> Int -> Int -> String -> String -> Svg Msg
-renderButton target width height x y color text =
+renderButton : Msg -> Int -> Int -> Int -> Int -> String -> String -> Bool -> Svg Msg
+renderButton target width height x y color text enabled =
   let
       background = renderRect (x-width//2) (y-height//2) width height color
       label = renderTextLine x (y+height//10) (height//3) text
+      children = [ background, label ]
   in
-      internalLink target [ background, label ]
+      if enabled then
+          internalLink target children
+      else
+          Svg.g [] children

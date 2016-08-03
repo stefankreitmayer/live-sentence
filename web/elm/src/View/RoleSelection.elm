@@ -23,7 +23,7 @@ renderRoleSelection {ui,parts} =
   let
       (w,h) = ui.windowSize
       whiteboardButton =
-        renderButton (ChangeScreen Whiteboard) w (h*10//100) (w//2) (h*65//100) "#edb" "Whiteboard"
+        renderButton (ChangeScreen Whiteboard) w (h*10//100) (w//2) (h*65//100) "#edb" "Whiteboard" True
       partButtons =
         parts
         |> List.indexedMap (renderPartButton ui.windowSize parts)
@@ -39,7 +39,7 @@ renderPartButton : (Int,Int) -> List Part -> Int -> Part -> Svg Msg
 renderPartButton (w,h) parts index part =
   let
       nParts = List.length parts
-      target = ChangeScreen (PartScreen part)
+      target = ChangeScreen (PartScreen part.name)
       width = w//nParts
       height = h//10
       x = index * width + width//2
@@ -47,4 +47,4 @@ renderPartButton (w,h) parts index part =
       color = partColor parts part
       text = part.name
   in
-      renderButton target width height x y color text
+      renderButton target width height x y color text True

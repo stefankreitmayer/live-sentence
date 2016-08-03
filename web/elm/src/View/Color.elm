@@ -23,7 +23,7 @@ palette =
 partColor : List Part -> Part -> String
 partColor parts part =
   List.map2 (,) parts palette
-  |> List.filter (\(p,color) -> p==part)
+  |> List.filter (\(p,color) -> p.name==part.name)
   |> List.map (\(_,color) -> color)
   |> List.head
   |> Maybe.withDefault "red"

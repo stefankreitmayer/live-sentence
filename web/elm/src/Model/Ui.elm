@@ -10,7 +10,7 @@ type alias Ui =
 type Screen
   = RoleSelection
   | Whiteboard
-  | PartScreen Part
+  | PartScreen String
 
 
 initialUi : Ui

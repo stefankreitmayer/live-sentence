@@ -40,12 +40,13 @@ renderPartBackground h x width color =
 renderAtomButton : (Int,Int) -> Part -> List Atom -> Int -> Atom -> Svg Msg
 renderAtomButton (w,h) part atoms index atom =
   let
-      target = ChangeAtom part atom
+      target = ChangePart { part | chosenAtom = atom }
       width = w
       height = h//8
       x = w//2
       y = height * index + h//6
-      color = "rgba(0,0,0,.1)"
+      clickable = not (atom == part.chosenAtom)
+      color = "rgba(0,0,0," ++ (if clickable then "0" else ".1") ++ ")"
       text = atom
   in
-      renderButton target width height x y color text
+      renderButton target width height x y color text clickable

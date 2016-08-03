@@ -21,14 +21,13 @@ update action ({ui} as model) =
       in
           (model', Cmd.none)
 
-    ChangeAtom part atom ->
+    ChangePart part ->
       let
-          sentence' =
-            List.map2
-              (\a p -> if p==part then atom else a)
-              model.sentence
+          parts' =
+            List.map
+              (\p -> if p.name==part.name then part else p)
               model.parts
-          model' = { model | sentence = sentence' }
+          model' = { model | parts = parts' }
       in
           (model', Cmd.none)
 

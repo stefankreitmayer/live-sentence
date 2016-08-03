@@ -17,14 +17,14 @@ import Msg exposing (..)
 
 
 renderWhiteboard : Model -> Html Msg
-renderWhiteboard {ui,sentence} =
+renderWhiteboard {ui,parts} =
   let
-      parts = renderParts ui.windowSize sentence
+      partAreas = renderParts ui.windowSize (sentence parts)
       menuButton = renderMenuButton ui.windowSize
   in
       Svg.svg
         (fullscreenSvgAttributes ui.windowSize)
-        [ parts, menuButton ]
+        [ partAreas, menuButton ]
 
 
 renderParts : (Int,Int) -> List Atom -> Svg Msg
