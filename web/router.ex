@@ -19,8 +19,10 @@ defmodule LiveSentence.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", LiveSentence do
-  #   pipe_through :api
-  # end
+  scope "/api", LiveSentence do
+    pipe_through :api
+
+    get "/sentence", RoomController, :show
+    post "/sentence", RoomController, :update
+  end
 end

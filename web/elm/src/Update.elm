@@ -1,7 +1,13 @@
 module Update exposing (..)
 
+import Time exposing (Time)
+-- import Debug exposing (log)
+
 import Model exposing (..)
+import Model.Ui exposing (..)
 import Msg exposing (..)
+
+import Poll exposing (pullData,updateData)
 
 
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -18,18 +24,40 @@ update action ({ui} as model) =
       let
           ui' = { ui | screen = screen }
           model' = { model | ui = ui' }
+          cmd = if screen==Whiteboard then pullData else Cmd.none
       in
-          (model', Cmd.none)
+          (model', cmd)
 
     ChangePart part ->
       let
           parts' =
-            List.map
-              (\p -> if p.name==part.name then part else p)
-              model.parts
+            model.parts
+            |> List.map (\p -> if p.name==part.name then part else p)
           model' = { model | parts = parts' }
+          cmd = updateData part parts'
+      in
+          (model', cmd)
+
+    PollSuccess sentence ->
+      let
+          parts' =
+            List.map2
+              (\part atom -> { part | chosenAtom = atom })
+              model.parts
+              sentence
+          model' = { model | parts = parts'
+                           , connectionStatus = Connected }
       in
           (model', Cmd.none)
+
+    PollFailure error ->
+      let
+          model' = { model | connectionStatus = ConnectionError (toString error) }
+      in
+          (model', Cmd.none)
+
+    SlowTick _ ->
+      (model, pullData)
 
     NoOp ->
       (model, Cmd.none)

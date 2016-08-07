@@ -3,6 +3,8 @@ module Msg exposing (..)
 import Html exposing (Html)
 import Window
 import Task
+import Http
+import Time exposing (Time,every,second)
 
 import Model exposing (..)
 import Model.Ui exposing (..)
@@ -13,6 +15,9 @@ type Msg
   = ResizeWindow (Int,Int)
   | ChangeScreen Screen
   | ChangePart Part
+  | PollSuccess (List String)
+  | PollFailure Http.Error
+  | SlowTick Time
   | NoOp
 
 
@@ -20,10 +25,11 @@ subscriptions : Model -> Sub Msg
 subscriptions model =
   let
       window = Window.resizes (\{width,height} -> ResizeWindow (width,height))
+      periodicPoll = every (2*second) SlowTick
   in
-      [ window ] |> Sub.batch
+      [ window, periodicPoll ] |> Sub.batch
 
 
-initialWindowSizeCommand : Cmd Msg
-initialWindowSizeCommand =
+initialWindowSize : Cmd Msg
+initialWindowSize =
   Task.perform (\_ -> NoOp) (\{width,height} -> ResizeWindow (width,height)) Window.size

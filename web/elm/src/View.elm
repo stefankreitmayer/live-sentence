@@ -34,3 +34,21 @@ view model =
                 renderRoleSelection
   in
       fn model
+
+
+renderUserMessage : String -> Html Msg
+renderUserMessage message =
+  div
+    [ class "elm-user-message" ]
+    [ Html.text message ]
+
+
+  -- case connectionStatus of
+  --     Connecting ->
+  --       renderUserMessage "Connecting..."
+
+  --     Connected ->
+  --       renderPartScreen part
+
+  --     ConnectionError message ->
+  --       renderUserMessage ("Oops! Connection error: "++message)

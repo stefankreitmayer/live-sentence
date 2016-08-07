@@ -5,6 +5,14 @@
 # is restricted to this project.
 use Mix.Config
 
+config :live_sentence, LiveSentence.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "live_sentence_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
+
 # General application configuration
 config :live_sentence,
   ecto_repos: [LiveSentence.Repo]
