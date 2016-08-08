@@ -9,6 +9,7 @@ import Model.Part exposing (..)
 type alias Model =
   { ui : Ui
   , parts : List Part
+  , roomKey : Maybe String
   , connectionStatus : ConnectionStatus }
 
 type ConnectionStatus
@@ -21,6 +22,7 @@ initialModel : Model
 initialModel =
   { ui = initialUi
   , parts = dummyParts
+  , roomKey = Nothing
   , connectionStatus = Connecting }
 
 

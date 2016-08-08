@@ -1,6 +1,7 @@
 module Update exposing (..)
 
 import Time exposing (Time)
+import String
 -- import Debug exposing (log)
 
 import Model exposing (..)
@@ -19,6 +20,21 @@ update action ({ui} as model) =
           model' = { model | ui = ui' }
       in
           (model', Cmd.none)
+
+    EnterKey key ->
+      let
+          screen =
+            if String.length key == 4 then
+                RoleSelection
+            else
+                ui.screen
+          ui' = { ui | screen = screen }
+          model' =
+            { model | ui = ui'
+            , roomKey = Just key }
+      in
+          (model', Cmd.none)
+
 
     ChangeScreen screen ->
       let

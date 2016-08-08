@@ -27,10 +27,9 @@ renderRoleSelection {ui,parts} =
       partButtons =
         parts
         |> List.indexedMap (renderPartButton ui.windowSize parts)
-      title = renderTitle ui.windowSize
-      instruction = renderTextLine (w//2) (h*40//100) (h//24) "Select a role"
+      instruction = renderTextLine (w//2) (h*26//100) (h//24) "Select a role"
       bg = renderWindowBackground ui.windowSize "#ddd"
-      children = [ bg, whiteboardButton, instruction, title ] ++ partButtons
+      children = [ bg, whiteboardButton, instruction ] ++ partButtons
   in
       Svg.svg
         (fullscreenSvgAttributes ui.windowSize)

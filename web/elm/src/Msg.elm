@@ -13,6 +13,7 @@ import Model.Part exposing (..)
 
 type Msg
   = ResizeWindow (Int,Int)
+  | EnterKey String
   | ChangeScreen Screen
   | ChangePart Part
   | PollSuccess (List String)
