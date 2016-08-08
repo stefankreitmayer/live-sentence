@@ -2,29 +2,29 @@ module Poll exposing (pullData,updateData)
 
 import Http
 import Json.Decode as Decode exposing (Decoder,(:=),list,string)
-import Task exposing (..)
+import Task
 
-import String exposing (..)
+import String
 
-import Model.Part exposing (..)
+import Model.Part exposing (Part)
 import Msg exposing (..)
 
 
-updateData : Part -> List Part -> Cmd Msg
-updateData ({name,chosenAtom} as part) parts =
+updateData : String -> Part -> List Part -> Cmd Msg
+updateData roomkey ({name,chosenAtom} as part) parts =
   let
       pos = partIndex part parts 0 |> toString
       val = chosenAtom
-      url = "/api/sentence?pos="++pos++"&val="++val
+      url = "/api/update/?roomkey="++roomkey++"&pos="++pos++"&val="++val
       request = Http.post sentenceDecoder url Http.empty
   in
       Task.perform PollFailure PollSuccess request
 
 
-pullData : Cmd Msg
-pullData =
+pullData : String -> Cmd Msg
+pullData roomkey =
   let
-      url = "/api/sentence"
+      url = "/api/poll?roomkey="++roomkey
       request = Http.get sentenceDecoder url
   in
       Task.perform PollFailure PollSuccess request

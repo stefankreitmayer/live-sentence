@@ -3,6 +3,7 @@ defmodule LiveSentence.Room do
 
   schema "rooms" do
     field :sentence, :string
+    field :roomkey, :string
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule LiveSentence.Room do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:sentence])
+    |> cast(params, [:sentence, :roomkey])
     |> validate_required([:sentence])
   end
 end

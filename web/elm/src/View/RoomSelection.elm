@@ -25,16 +25,30 @@ renderRoomSelection {ui,parts} =
       (w,h) = ui.windowSize
       title = renderTitle ui.windowSize
       instruction = renderTextLine (w//2) (h*40//100) (h//24) "Enter room key"
-      teacher = renderTextLine (w//2) (h*90//100) (h//30) "Teacher Login"
       bg = renderWindowBackground ui.windowSize "#ddd"
-      svgComponents =
+      createRoomButton =
+        renderButton
+          CreateRoom
+          (w//2)
+          (w//10)
+          (w//2)
+          (h*90//100)
+          "#bbb"
+          "Create a new room"
+          True
+      svgChildren =
+        if ui.requestToCreatePending then
+          [ bg, instruction, title ]
+        else
+          [ bg, instruction, title, createRoomButton ]
+      svg =
         Svg.svg
           (fullscreenSvgAttributes ui.windowSize)
-          [ bg, instruction, title, teacher ]
+          svgChildren
   in
       div
         []
-        [ svgComponents, textInput ]
+        [ svg, textInput ]
 
 
 textInput : Html Msg
@@ -46,7 +60,7 @@ textInput =
   in
       Html.input
         [ Html.Attributes.placeholder "Key"
-        , Html.Events.onInput (\v -> EnterKey v)
+        , Html.Events.onInput (\v -> EnterRoomkey v)
         , Html.Attributes.autofocus True
         , Html.Attributes.autocomplete False
         , Html.Attributes.spellcheck False

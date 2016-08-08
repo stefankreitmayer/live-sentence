@@ -22,7 +22,9 @@ defmodule LiveSentence.Router do
   scope "/api", LiveSentence do
     pipe_through :api
 
-    get "/sentence", RoomController, :show
-    post "/sentence", RoomController, :update
+    post "/join", RoomController, :join
+    post "/create", RoomController, :create
+    get "/poll", RoomController, :show
+    post "/update", RoomController, :update
   end
 end

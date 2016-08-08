@@ -6,8 +6,10 @@ import String
 
 import Model exposing (..)
 import Model.Ui exposing (..)
+
 import Msg exposing (..)
 
+import Join exposing (..)
 import Poll exposing (pullData,updateData)
 
 
@@ -21,26 +23,53 @@ update action ({ui} as model) =
       in
           (model', Cmd.none)
 
-    EnterKey key ->
+    CreateRoom ->
       let
-          screen =
-            if String.length key == 4 then
-                RoleSelection
-            else
-                ui.screen
-          ui' = { ui | screen = screen }
-          model' =
-            { model | ui = ui'
-            , roomKey = Just key }
+          ui' = { ui | requestToCreatePending = True }
       in
-          (model', Cmd.none)
+         ({ model | ui = ui' }, requestToCreate)
 
+    EnterRoomkey userEnteredRoomkey ->
+      let
+          lowercaseRoomkey = String.toLower userEnteredRoomkey
+          effect = if (String.length lowercaseRoomkey) == roomkeyLength then
+                      requestToJoin lowercaseRoomkey
+                   else
+                      Cmd.none
+          ui' = { ui | userEnteredRoomkey=lowercaseRoomkey }
+      in
+         ({ model | ui = ui' }, effect)
+
+    JoinAcceptedOrDenied verdict ->
+      case verdict of
+        Accepted roomkey ->
+          let
+              ui' = { ui | screen = RoleSelection
+                         , requestToCreatePending = False }
+              model' = { model | acceptedRoomkey = Just roomkey
+                               , ui = ui' }
+          in
+             (model', pullData roomkey)
+
+        Denied ->
+          let
+              ui' = { ui | errorMessage = Just "Room not found"
+                         , requestToCreatePending = False }
+          in
+              ({ model | ui = ui' }, Cmd.none)
+
+    JoinError httpError ->
+      let
+          message = Just ("Connection error: "++(toString httpError))
+          ui' = { ui | errorMessage = message }
+      in
+         ({ model | ui = ui' }, Cmd.none)
 
     ChangeScreen screen ->
       let
           ui' = { ui | screen = screen }
           model' = { model | ui = ui' }
-          cmd = if screen==Whiteboard then pullData else Cmd.none
+          cmd = pullIfJoined model
       in
           (model', cmd)
 
@@ -50,7 +79,13 @@ update action ({ui} as model) =
             model.parts
             |> List.map (\p -> if p.name==part.name then part else p)
           model' = { model | parts = parts' }
-          cmd = updateData part parts'
+          cmd =
+            case model.acceptedRoomkey of
+              Just roomkey ->
+                updateData roomkey part parts'
+
+              Nothing ->
+                Cmd.none
       in
           (model', cmd)
 
@@ -72,8 +107,29 @@ update action ({ui} as model) =
       in
           (model', Cmd.none)
 
+    LeaveRoom ->
+      let
+          ui' = { ui | screen = RoomSelection }
+          model' = { model | ui = ui' }
+      in
+          (model', Cmd.none)
+
     SlowTick _ ->
-      (model, pullData)
+      let
+          cmd = pullIfJoined model
+      in
+          (model, cmd)
 
     NoOp ->
       (model, Cmd.none)
+
+
+
+pullIfJoined : Model -> Cmd Msg
+pullIfJoined {acceptedRoomkey} =
+  case acceptedRoomkey of
+    Nothing ->
+      Cmd.none
+
+    Just roomkey ->
+      pullData roomkey

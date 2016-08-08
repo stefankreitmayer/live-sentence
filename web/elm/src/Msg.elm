@@ -13,13 +13,21 @@ import Model.Part exposing (..)
 
 type Msg
   = ResizeWindow (Int,Int)
-  | EnterKey String
+  | CreateRoom
+  | EnterRoomkey String
+  | JoinAcceptedOrDenied JoinVerdict
+  | JoinError Http.Error
   | ChangeScreen Screen
   | ChangePart Part
   | PollSuccess (List String)
   | PollFailure Http.Error
+  | LeaveRoom
   | SlowTick Time
   | NoOp
+
+type JoinVerdict
+  = Accepted String
+  | Denied
 
 
 subscriptions : Model -> Sub Msg

@@ -19,7 +19,7 @@ import Msg exposing (..)
 
 
 renderRoleSelection : Model -> Html Msg
-renderRoleSelection {ui,parts} =
+renderRoleSelection {ui,parts,acceptedRoomkey} =
   let
       (w,h) = ui.windowSize
       whiteboardButton =
@@ -27,9 +27,12 @@ renderRoleSelection {ui,parts} =
       partButtons =
         parts
         |> List.indexedMap (renderPartButton ui.windowSize parts)
-      instruction = renderTextLine (w//2) (h*26//100) (h//24) "Select a role"
+      roomkey = Maybe.withDefault "" acceptedRoomkey
+      roomInfo = renderTextLine (w//2) (h*5//100) (h//30) ("Room "++roomkey)
+      instruction = renderTextLine (w//2) (h*26//100) (h*6//100) "Select a role"
+      leaveButton = renderLeaveButton ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
-      children = [ bg, whiteboardButton, instruction ] ++ partButtons
+      children = [ bg, whiteboardButton, instruction, roomInfo, leaveButton ] ++ partButtons
   in
       Svg.svg
         (fullscreenSvgAttributes ui.windowSize)
@@ -50,3 +53,17 @@ renderPartButton (w,h) parts index part =
       text = part.name
   in
       renderButton target (width-2*padding) height (x+padding//4) y color text True
+
+
+renderLeaveButton : (Int,Int) -> Svg Msg
+renderLeaveButton (w,h) =
+  let
+      width = 60
+      height = 35
+      margin = 10
+      x = w-width//2-margin
+      y = height//2+margin
+      color = "rgba(0,0,0,.15)"
+      target = LeaveRoom
+  in
+      renderButton target width height x y color "exit" True
