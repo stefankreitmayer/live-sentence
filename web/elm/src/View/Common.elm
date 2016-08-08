@@ -92,3 +92,13 @@ renderButton target width height x y color text enabled =
             [ background, label ]
   in
       Svg.g [] children
+
+
+renderTitle : (Int,Int) -> Svg Msg
+renderTitle (w,h) =
+  renderTextLine (w//2) (h//5) (h//13) "Live Sentence"
+
+
+renderWindowBackground : (Int,Int) -> String -> Svg Msg
+renderWindowBackground (w,h) color =
+  renderRect 0 0 w h color

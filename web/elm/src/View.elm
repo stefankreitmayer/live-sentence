@@ -7,6 +7,7 @@ import Model exposing (..)
 import Model.Ui exposing (..)
 import Model.Part exposing (..)
 
+import View.RoomSelection exposing (..)
 import View.RoleSelection exposing (..)
 import View.Whiteboard exposing (..)
 import View.Part exposing (..)
@@ -19,6 +20,9 @@ view model =
   let
       fn =
         case model.ui.screen of
+          RoomSelection ->
+            renderRoomSelection
+
           RoleSelection ->
             renderRoleSelection
 
@@ -34,21 +38,3 @@ view model =
                 renderRoleSelection
   in
       fn model
-
-
-renderUserMessage : String -> Html Msg
-renderUserMessage message =
-  div
-    [ class "elm-user-message" ]
-    [ Html.text message ]
-
-
-  -- case connectionStatus of
-  --     Connecting ->
-  --       renderUserMessage "Connecting..."
-
-  --     Connected ->
-  --       renderPartScreen part
-
-  --     ConnectionError message ->
-  --       renderUserMessage ("Oops! Connection error: "++message)

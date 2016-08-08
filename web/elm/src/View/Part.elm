@@ -11,7 +11,7 @@ import Model.Ui exposing (..)
 import Model.Part exposing (..)
 
 import View.Common exposing (..)
-import View.Color exposing (..)
+import View.Palette exposing (..)
 
 import Msg exposing (..)
 

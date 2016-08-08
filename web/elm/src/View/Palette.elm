@@ -1,4 +1,4 @@
-module View.Color exposing (..)
+module View.Palette exposing (..)
 
 import Model.Part exposing (..)
 

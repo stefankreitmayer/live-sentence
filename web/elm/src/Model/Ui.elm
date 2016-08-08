@@ -9,7 +9,8 @@ type alias Ui =
   , errorMessage : Maybe String }
 
 type Screen
-  = RoleSelection
+  = RoomSelection
+  | RoleSelection
   | Whiteboard
   | PartScreen String
 
@@ -17,5 +18,5 @@ type Screen
 initialUi : Ui
 initialUi =
   { windowSize = (500,500)
-  , screen = RoleSelection
+  , screen = RoomSelection
   , errorMessage = Nothing }

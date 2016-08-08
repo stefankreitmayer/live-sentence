@@ -13,7 +13,7 @@ import Model.Ui exposing (..)
 import Model.Part exposing (..)
 
 import View.Common exposing (..)
-import View.Color exposing (..)
+import View.Palette exposing (..)
 
 import Msg exposing (..)
 
@@ -27,14 +27,14 @@ renderRoleSelection {ui,parts} =
       partButtons =
         parts
         |> List.indexedMap (renderPartButton ui.windowSize parts)
-      title = renderTextLine (w//2) (h//5) (h//13) "Live Sentence"
+      title = renderTitle ui.windowSize
       instruction = renderTextLine (w//2) (h*40//100) (h//24) "Select a role"
       bg = renderWindowBackground ui.windowSize "#ddd"
-      children = partButtons ++ [ whiteboardButton, instruction, title ]
+      children = [ bg, whiteboardButton, instruction, title ] ++ partButtons
   in
       Svg.svg
         (fullscreenSvgAttributes ui.windowSize)
-        (bg::children)
+        children
 
 
 renderPartButton : (Int,Int) -> List Part -> Int -> Part -> Svg Msg
@@ -51,8 +51,3 @@ renderPartButton (w,h) parts index part =
       text = part.name
   in
       renderButton target (width-2*padding) height (x+padding//4) y color text True
-
-
-renderWindowBackground : (Int,Int) -> String -> Svg Msg
-renderWindowBackground (w,h) color =
-  renderRect 0 0 w h color
