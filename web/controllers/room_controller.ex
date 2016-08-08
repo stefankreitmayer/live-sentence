@@ -5,11 +5,8 @@ defmodule LiveSentence.RoomController do
   alias LiveSentence.Roomkey
 
   def create(conn, _) do
-    room = Room.changeset(%Room{}, %{sentence: defaultSentence})
-            |> Repo.insert!
-    roomkey = Roomkey.generate(room.id)
-    Room.changeset(room, %{roomkey: roomkey}) |> Repo.update!
-    render_admission conn, roomkey
+    room = try_create_room(10)
+    render_admission conn, room.roomkey
   end
 
   def join(conn, %{"roomkey" => roomkey}) do
@@ -48,7 +45,26 @@ defmodule LiveSentence.RoomController do
     json conn, %{}
   end
 
-  defp defaultSentence do
+  defp dummy_sentence do
     "our dog|chases|butterflies|in the garden"
+  end
+
+  defp try_create_room(attempts) do
+    IO.puts("attempts #{attempts}")
+    if attempts<1 do
+      nil
+    else
+      new_room || try_create_room(attempts-1)
+    end
+  end
+
+  defp new_room do
+    changeset = Room.changeset(%Room{}, %{sentence: dummy_sentence, roomkey: Roomkey.random})
+    case Repo.insert(changeset) do
+      {:ok, room} ->
+        room
+      {:error, _} ->
+        nil
+    end
   end
 end

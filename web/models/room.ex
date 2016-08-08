@@ -15,5 +15,6 @@ defmodule LiveSentence.Room do
     struct
     |> cast(params, [:sentence, :roomkey])
     |> validate_required([:sentence])
+    |> unique_constraint(:roomkey)
   end
 end
