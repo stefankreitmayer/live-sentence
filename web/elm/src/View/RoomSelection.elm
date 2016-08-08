@@ -29,8 +29,8 @@ renderRoomSelection {ui,parts} =
       createRoomButton =
         renderButton
           CreateRoom
-          (w//2)
-          (w//10)
+          (w//2 |> min 200)
+          (w//10 |> min 50)
           (w//2)
           (h*90//100)
           "#bbb"
