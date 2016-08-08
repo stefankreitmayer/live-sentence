@@ -46,7 +46,7 @@ defmodule LiveSentence.RoomController do
   end
 
   defp dummy_sentence do
-    "our dog|chases|butterflies|in the garden"
+    "our dog|often|chases|butterflies"
   end
 
   defp try_create_room(attempts) do
