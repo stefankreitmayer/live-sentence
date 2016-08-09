@@ -13,10 +13,10 @@ type alias Atom = String
 
 dummyParts : List Part
 dummyParts =
-  [ createPart "subject" "our dog;the goose;nobody;everyone;a squirrel"
+  [ createPart "subject" "our dog;the goose;nobody;everyone;a squirrel;the police;lavender"
   , createPart "adverb" "often;rarely;probably;usually;surprisingly;secretly;inconspicuously"
   , createPart "verb" "chases;eats;ignores;delivers;imagines;tells on;desires;obscures"
-  , createPart "object" "butterflies;dreams;your head;life, the universe, and everything;the usual suspects;the obvious;nothing;someone special;random stuff" ]
+  , createPart "object" "butterflies;dreams;your head;life, the universe, and everything;the mail;the obvious;nothing;someone special;random stuff" ]
   -- , createPart "adverb" "around the house;tonight;like there's no tomorrow;like most of us have probably done at one point or another" ]
 
 
