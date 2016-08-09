@@ -67,7 +67,8 @@ update action ({ui} as model) =
 
     ChangeScreen screen ->
       let
-          ui' = { ui | screen = screen }
+          ui' = { ui | screen = screen
+                     , instructionsVisible = False }
           model' = { model | ui = ui' }
           cmd = pullIfJoined model
       in
@@ -109,14 +110,16 @@ update action ({ui} as model) =
 
     ShowInstructions ->
       let
-          ui' = { ui | screen = Instructions }
+          ui' = { ui | instructionsVisible = True
+                     , instructionsButtonEverPressed = True }
           model' = { model | ui = ui' }
       in
           (model', Cmd.none)
 
     LeaveRoom ->
       let
-          ui' = { ui | screen = RoomSelection }
+          ui' = { ui | screen = RoomSelection
+                     , instructionsVisible = False }
           model' = { model | ui = ui'
                            , acceptedRoomkey = Nothing }
       in

@@ -21,9 +21,6 @@ view ({ui,parts} as model) =
   let
       fn =
         case ui.screen of
-          Instructions ->
-            renderInstructions
-
           RoomSelection ->
             renderRoomSelection
 
@@ -40,5 +37,9 @@ view ({ui,parts} as model) =
 
               Nothing ->
                 renderRoleSelection
+      main = fn model
+      instructions = renderInstructions ui
   in
-      fn model
+      div
+        []
+        [ main, instructions ]

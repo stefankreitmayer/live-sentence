@@ -8,6 +8,8 @@ type alias Ui =
   , screen : Screen
   , userEnteredRoomkey : String
   , requestToCreatePending : Bool
+  , instructionsVisible : Bool
+  , instructionsButtonEverPressed : Bool -- suppress initial slide animation
   , errorMessage : Maybe String }
 
 type Screen
@@ -15,7 +17,6 @@ type Screen
   | RoleSelection
   | Whiteboard
   | PartScreen String
-  | Instructions
 
 
 initialUi : Ui
@@ -24,4 +25,6 @@ initialUi =
   , screen = RoomSelection
   , userEnteredRoomkey = ""
   , requestToCreatePending = False
+  , instructionsVisible = False
+  , instructionsButtonEverPressed = False
   , errorMessage = Nothing }
