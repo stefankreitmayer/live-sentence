@@ -23,24 +23,34 @@ renderRoomSelection : Model -> Html Msg
 renderRoomSelection {ui,parts} =
   let
       (w,h) = ui.windowSize
-      title = renderTitle ui.windowSize
-      instruction = renderTextLine (w//2) (h*40//100) (h//24) "Enter room key"
       bg = renderWindowBackground ui.windowSize "#ddd"
+      title = renderTitle ui.windowSize
+      enterRoomKey = renderTextLine (w//2) (h*36//100) (h//20) "Join a room"
+      or = renderTextLine (w//2) (h*63//100) (h//24) "or"
       createRoomButton =
-        renderButton
-          CreateRoom
-          (w//2 |> min 200)
-          (w//10 |> min 50)
-          (w//2)
-          (h*90//100)
-          "#bbb"
-          "Create a new room"
-          True
-      svgChildren =
         if ui.requestToCreatePending then
-          [ bg, instruction, title ]
+            []
         else
-          [ bg, instruction, title, createRoomButton ]
+            [ renderButton
+                CreateRoom
+                (w*84//100 |> min 400)
+                (w//10 |> min 50)
+                (w//2)
+                (h*73//100)
+                "#6ae"
+                "Create a new room"
+                True
+            ]
+      fontSize = (w//16 |> min 24 |> toString) ++ "px"
+      instructionsButton =
+        Html.button
+          [ Html.Events.onClick ShowInstructions
+          , "position: absolute; top: 88%; left: 50%; transform: translate(-50%); font-size: "++fontSize++";"
+            |> Html.Attributes.attribute "style" ]
+          [ Html.text "Instructions" ]
+        |> centered
+      svgChildren =
+          [ bg, title, enterRoomKey, or ] ++ createRoomButton
       svg =
         Svg.svg
           (fullscreenSvgAttributes ui.windowSize)
@@ -48,14 +58,14 @@ renderRoomSelection {ui,parts} =
   in
       div
         []
-        [ svg, textInput ]
+        [ svg, textInput, instructionsButton ]
 
 
 textInput : Html Msg
 textInput =
   let
       style =
-        "width: 200px; height: 35px; position: absolute; top: 50%; left: 50%; transform: translate(-50%); padding: 10px 0; font-size: 2em; text-align: center;"
+        "width: 100px; position: absolute; top: 42%; left: 50%; transform: translate(-50%); padding: 10px 0; font-size: 2em; text-align: center;"
         |> Html.Attributes.attribute "style"
   in
       Html.input

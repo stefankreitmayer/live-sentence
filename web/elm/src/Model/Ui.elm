@@ -15,6 +15,7 @@ type Screen
   | RoleSelection
   | Whiteboard
   | PartScreen String
+  | Instructions
 
 
 initialUi : Ui

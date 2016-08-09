@@ -107,10 +107,18 @@ update action ({ui} as model) =
       in
           (model', Cmd.none)
 
+    ShowInstructions ->
+      let
+          ui' = { ui | screen = Instructions }
+          model' = { model | ui = ui' }
+      in
+          (model', Cmd.none)
+
     LeaveRoom ->
       let
           ui' = { ui | screen = RoomSelection }
-          model' = { model | ui = ui' }
+          model' = { model | ui = ui'
+                           , acceptedRoomkey = Nothing }
       in
           (model', Cmd.none)
 

@@ -2,6 +2,8 @@ module View.Common exposing (..)
 
 import Json.Encode
 import VirtualDom
+import Html exposing (Html,div)
+import Html.Attributes
 import String
 
 import Svg exposing (Svg)
@@ -102,3 +104,10 @@ renderTitle (w,h) =
 renderWindowBackground : (Int,Int) -> String -> Svg Msg
 renderWindowBackground (w,h) color =
   renderRect 0 0 w h color
+
+
+centered : Html Msg -> Html Msg
+centered element =
+  div
+    [ Html.Attributes.attribute "style" "text-align: center" ]
+    [ element ]

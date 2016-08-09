@@ -10,16 +10,20 @@ import Model.Part exposing (..)
 import View.RoomSelection exposing (..)
 import View.RoleSelection exposing (..)
 import View.Whiteboard exposing (..)
+import View.Instructions exposing (..)
 import View.Part exposing (..)
 
 import Msg exposing (..)
 
 
 view : Model -> Html Msg
-view model =
+view ({ui,parts} as model) =
   let
       fn =
-        case model.ui.screen of
+        case ui.screen of
+          Instructions ->
+            renderInstructions
+
           RoomSelection ->
             renderRoomSelection
 
@@ -30,7 +34,7 @@ view model =
             renderWhiteboard
 
           PartScreen partName ->
-            case (findPart model.parts partName) of
+            case (findPart parts partName) of
               Just part ->
                 renderPartScreen part
 

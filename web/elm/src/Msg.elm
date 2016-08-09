@@ -22,6 +22,7 @@ type Msg
   | PollSuccess (List String)
   | PollFailure Http.Error
   | LeaveRoom
+  | ShowInstructions
   | SlowTick Time
   | NoOp
 
