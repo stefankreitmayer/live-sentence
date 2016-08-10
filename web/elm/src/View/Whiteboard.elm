@@ -1,6 +1,6 @@
 module View.Whiteboard exposing (renderWhiteboard)
 
-import Html exposing (Html)
+import Html exposing (Html,div)
 import String
 
 import Svg exposing (Svg)
@@ -20,11 +20,10 @@ renderWhiteboard : Model -> Html Msg
 renderWhiteboard {ui,parts} =
   let
       partAreas = renderParts ui.windowSize (sentence parts)
-      menuButton = renderMenuButton ui.windowSize
+      menuButton = menuButtonHtml
+      svg = Svg.svg (fullscreenSvgAttributes ui.windowSize) [ partAreas ]
   in
-      Svg.svg
-        (fullscreenSvgAttributes ui.windowSize)
-        [ partAreas, menuButton ]
+      div [] [ svg, menuButtonHtml ]
 
 
 renderParts : (Int,Int) -> List Atom -> Svg Msg
@@ -61,7 +60,7 @@ renderPartText h fontSize posX atom =
       x = posX
       y = h//2
   in
-      renderTextLine x y fontSize atom
+      renderTextLine x y fontSize "middle" atom
 
 
 renderPartBackground : Int -> Int -> Int -> String -> Svg Msg

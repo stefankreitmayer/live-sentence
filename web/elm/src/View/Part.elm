@@ -25,30 +25,23 @@ renderPartScreen : Part -> Model -> Html Msg
 renderPartScreen part {parts,ui} =
   let
       (w,h) = ui.windowSize
+      ws = w |> toString
+      hs = h |> toString
       color = partColor parts part
-      menuButton = renderMenuButton ui.windowSize
+      menuButton = menuButtonHtml
       atomButtons =
         part.atoms
         |> List.indexedMap (renderAtomButton ui.windowSize part part.atoms)
-      svg =
-        let
-            width = w |> toString
-            height = h//8 |> toString
-        in
-            Svg.svg
-              [ Svg.Attributes.width width
-              , Svg.Attributes.height height
-              , Svg.Attributes.viewBox <| "0 0 " ++ width ++ " " ++ height
-              , VirtualDom.property "xmlns:xlink" (Json.Encode.string "http://www.w3.org/1999/xlink")
-              , Svg.Attributes.version "1.1"
-              ]
-              [ menuButton ]
+      background =
+        div
+          [ Html.Attributes.attribute "style" ("position: fixed; top: 0; height: "++hs++"px; width: "++ws++"px; background: "++color++"; z-index: -1000;") ]
+          []
   in
       div
       [ Html.Attributes.attribute "style"
-        <| "height: 100%; margin: 0; background: "++color
+        <| "height: 100%; margin: 0"
       ]
-      ([ svg ] ++ atomButtons)
+      ( [ menuButton, background ] ++ atomButtons)
 
 
 renderAtomButton : (Int,Int) -> Part -> List Atom -> Int -> Atom -> Html Msg

@@ -1,7 +1,9 @@
 module View.RoleSelection exposing (renderRoleSelection)
 
 import Json.Encode
-import Html exposing (Html)
+import Html exposing (Html,div)
+import Html.Attributes
+import Html.Events
 import VirtualDom
 import String
 
@@ -28,15 +30,36 @@ renderRoleSelection {ui,parts,acceptedRoomkey} =
         parts
         |> List.indexedMap (renderPartButton ui.windowSize parts)
       roomkey = Maybe.withDefault "" acceptedRoomkey
-      roomInfo = renderTextLine (w//2) (h*5//100) (h//30) ("Room "++roomkey)
-      instruction = renderTextLine (w//2) (h*26//100) (h*6//100) "Select a role"
+      roomInfo = renderRoomInfo h roomkey
+      instruction = renderTextLine (w//2) (h*26//100) (h*6//100) "middle" "Select a role"
       leaveButton = renderLeaveButton ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
-      children = [ bg, whiteboardButton, instruction, roomInfo, leaveButton ] ++ partButtons
+      svg =
+        Svg.svg
+          (fullscreenSvgAttributes ui.windowSize)
+          ([ bg, whiteboardButton, instruction ] ++ partButtons)
   in
-      Svg.svg
-        (fullscreenSvgAttributes ui.windowSize)
-        children
+     div
+       []
+       [ svg, leaveButton, roomInfo ]
+
+
+renderRoomInfo : Int -> String -> Html Msg
+renderRoomInfo h roomkey =
+  let
+      fontSize = 24
+      line1 =
+        div
+          [ Html.Attributes.attribute "style" ("position: fixed; top: -3px; left: 6px;") ]
+          [ Html.text "Room" ]
+      line2 =
+        div
+          [ Html.Attributes.attribute "style" ("position: fixed; top: 20px; left: 6px;") ]
+          [ Html.text roomkey ]
+  in
+      div
+        [ Html.Attributes.attribute "style" ("font-family: monospace; font-size: "++(fontSize |> toString)++"px") ]
+        [ line1, line2 ]
 
 
 renderPartButton : (Int,Int) -> List Part -> Int -> Part -> Svg Msg
@@ -66,4 +89,10 @@ renderLeaveButton (w,h) =
       color = "rgba(0,0,0,.15)"
       target = LeaveRoom
   in
-      renderButton target width height x y color "exit" True
+      Html.button
+        [ Html.Events.onClick LeaveRoom
+        , Html.Attributes.attribute "style"
+          <| "position: absolute; top: 5px; right: 5px; font-size: 16px; font-family: monospace; padding: 10px 20px; background: #eee; color: #222; border: none"
+        ]
+        [ Html.text "Leave this room" ]
+      |> centered

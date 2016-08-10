@@ -24,13 +24,13 @@ renderRoomSelection {ui,parts} =
       (w,h) = ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
       title = renderTitle ui.windowSize
-      enterRoomKey = renderTextLine (w//2) (h*28//100) (w//12 |> min 24) "Join a room"
+      enterRoomKey = renderTextLine (w//2) (h*28//100) (w//12 |> min 24) "middle" "Join a room"
       buttonFontSize = (w//12 |> min 24 |> toString) ++ "px"
       createRoomButton =
         Html.button
           [ Html.Events.onClick CreateRoom
           , Html.Attributes.attribute "style"
-            <| "position: absolute; top: 65%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: #59e; color: #222;"
+            <| "position: absolute; top: 65%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: #59e; color: #222; border: none"
           ]
           [ Html.text "Make a room" ]
         |> centered
@@ -38,7 +38,7 @@ renderRoomSelection {ui,parts} =
         Html.button
           [ Html.Events.onClick ShowInstructions
           , Html.Attributes.attribute "style"
-            <| "position: absolute; top: 88%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace;"
+            <| "position: absolute; top: 88%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; border: none"
           ]
           [ Html.text "Instructions" ]
         |> centered
@@ -74,4 +74,4 @@ textInput =
 
 renderTitle : (Int,Int) -> Svg Msg
 renderTitle (w,h) =
-  renderTextLine (w//2) (h//10) (w*12//100) "Live Sentence"
+  renderTextLine (w//2) (h//10) (w*12//100) "middle" "Live Sentence"

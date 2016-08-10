@@ -2,6 +2,7 @@ module View.Common exposing (..)
 
 import Html exposing (Html,div)
 import Html.Attributes
+import Html.Events
 import Json.Encode
 import VirtualDom
 import String
@@ -15,6 +16,22 @@ import Model.Ui exposing (..)
 import Msg exposing (..)
 
 
+basicSvg : Int -> Int -> List (Svg.Attribute Msg) -> List (Svg Msg) -> Svg Msg
+basicSvg width height additionalAttributes children =
+  let
+      w = width |> toString
+      h = height |> toString
+      attributes =
+        [ Svg.Attributes.width w
+        , Svg.Attributes.height h
+        , Svg.Attributes.viewBox <| "0 0 " ++ w ++ " " ++ h
+        , VirtualDom.property "xmlns:xlink" (Json.Encode.string "http://www.w3.org/1999/xlink")
+        , Svg.Attributes.version "1.1"
+        ] ++ additionalAttributes
+  in
+      Svg.svg attributes children
+
+
 fullscreenSvgAttributes : (Int,Int) -> List (Svg.Attribute Msg)
 fullscreenSvgAttributes (w,h) =
   [ Svg.Attributes.width (toString w)
@@ -26,14 +43,14 @@ fullscreenSvgAttributes (w,h) =
   ]
 
 
-renderTextLine : Int -> Int -> Int -> String -> Svg Msg
-renderTextLine x y fontSize text =
+renderTextLine : Int -> Int -> Int -> String -> String -> Svg Msg
+renderTextLine x y fontSize anchor text =
   let
       attributes = [ Svg.Attributes.x <| toString x
                    , Svg.Attributes.y <| toString y
                    , Svg.Attributes.fontSize <| toString fontSize
                    , Svg.Attributes.textDecoration "none"
-                   , Svg.Attributes.textAnchor "middle"
+                   , Svg.Attributes.textAnchor anchor
                    , Svg.Attributes.alignmentBaseline "middle"
                    , Svg.Attributes.fontFamily "monospace"
                    , Svg.Attributes.fill "#222"
@@ -61,24 +78,30 @@ internalLink msg children =
     children
 
 
-renderMenuButton : (Int,Int) -> Svg Msg
-renderMenuButton (w,h) =
+menuButtonHtml : Html Msg
+menuButtonHtml =
   let
       width = 80
-      height = 65
-      margin = 0
+      height = 60
       padding = 20
-      x = margin
-      y = margin
       color = "rgba(0,0,0,.3)"
-      transparent = "rgba(0,0,0,0)"
-      background = renderRect x y width height transparent
       renderStripe index =
-        renderRect (x+padding) (y+index*10+padding) (width-padding*2) 5 color
+        renderRect padding (index*10+padding) (width-padding*2) 5 color
       stripes = [ 0..2 ] |> List.map renderStripe
-      target = ChangeScreen RoleSelection
+      svg =
+        basicSvg
+          width
+          height
+          []
+          stripes
   in
-      internalLink target ([ background ] ++ stripes)
+      Html.button
+        [ Html.Events.onClick (ChangeScreen RoleSelection)
+        , Html.Attributes.style
+            [ ("background", "transparent")
+            , ("border", "none") ]
+        ]
+        [ svg ]
 
 
 renderButton : Msg -> Int -> Int -> Int -> Int -> String -> String -> Bool -> Svg Msg
@@ -86,7 +109,7 @@ renderButton target width height x y color text enabled =
   let
       background = renderRect (x-width//2) (y-height*58//100) width height color
       fontSize = width * 3 // 2 // (String.length text) |> min (height*90//100)
-      label = renderTextLine x y fontSize text
+      label = renderTextLine x y fontSize "middle" text
       children =
         if enabled then
             [ internalLink target [ background ], label ]
