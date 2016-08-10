@@ -18,7 +18,7 @@ palette =
   [ "#ef476f"
   , "#ffd166"
   , "#06d6a0"
-  , "#118ab2"
+  , "#149ecc" -- originally "#118ab2" but that was found too dark for black text
   , "#073b4c"
   ]
 
