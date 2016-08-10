@@ -1,6 +1,5 @@
 module View.RoomSelection exposing (renderRoomSelection)
 
-import Json.Encode
 import Html exposing (Html,div)
 import Html.Attributes
 import Html.Events
@@ -25,32 +24,26 @@ renderRoomSelection {ui,parts} =
       (w,h) = ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
       title = renderTitle ui.windowSize
-      enterRoomKey = renderTextLine (w//2) (h*36//100) (h//20) "Join a room"
-      or = renderTextLine (w//2) (h*63//100) (h//24) "or"
+      enterRoomKey = renderTextLine (w//2) (h*28//100) (w//12 |> min 24) "Join a room"
+      buttonFontSize = (w//12 |> min 24 |> toString) ++ "px"
       createRoomButton =
-        if ui.requestToCreatePending then
-            []
-        else
-            [ renderButton
-                CreateRoom
-                (w*84//100 |> min 400)
-                (w//10 |> min 50)
-                (w//2)
-                (h*73//100)
-                "#6ae"
-                "Create a new room"
-                True
-            ]
-      fontSize = (w//16 |> min 24 |> toString) ++ "px"
+        Html.button
+          [ Html.Events.onClick CreateRoom
+          , Html.Attributes.attribute "style"
+            <| "position: absolute; top: 65%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: #59e; color: #222;"
+          ]
+          [ Html.text "Make a room" ]
+        |> centered
       instructionsButton =
         Html.button
           [ Html.Events.onClick ShowInstructions
-          , "position: absolute; top: 88%; left: 50%; transform: translate(-50%); font-size: "++fontSize++";"
-            |> Html.Attributes.attribute "style" ]
+          , Html.Attributes.attribute "style"
+            <| "position: absolute; top: 88%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace;"
+          ]
           [ Html.text "Instructions" ]
         |> centered
       svgChildren =
-          [ bg, title, enterRoomKey, or ] ++ createRoomButton
+          [ bg, title, enterRoomKey ]
       svg =
         Svg.svg
           (fullscreenSvgAttributes ui.windowSize)
@@ -58,14 +51,14 @@ renderRoomSelection {ui,parts} =
   in
       div
         []
-        [ svg, textInput, instructionsButton ]
+        [ svg, textInput, instructionsButton, createRoomButton ]
 
 
 textInput : Html Msg
 textInput =
   let
       style =
-        "width: 100px; position: absolute; top: 42%; left: 50%; transform: translate(-50%); padding: 10px 0; font-size: 2em; text-align: center;"
+        "width: 100px; position: absolute; top: 35%; left: 50%; transform: translate(-50%); padding: 10px 0; font-size: 2em; text-align: center;"
         |> Html.Attributes.attribute "style"
   in
       Html.input
@@ -77,3 +70,8 @@ textInput =
         , Html.Attributes.maxlength 5
         , style ]
         []
+
+
+renderTitle : (Int,Int) -> Svg Msg
+renderTitle (w,h) =
+  renderTextLine (w//2) (h//10) (w*12//100) "Live Sentence"

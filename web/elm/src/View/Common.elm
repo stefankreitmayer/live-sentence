@@ -1,9 +1,9 @@
 module View.Common exposing (..)
 
-import Json.Encode
-import VirtualDom
 import Html exposing (Html,div)
 import Html.Attributes
+import Json.Encode
+import VirtualDom
 import String
 
 import Svg exposing (Svg)
@@ -36,7 +36,7 @@ renderTextLine x y fontSize text =
                    , Svg.Attributes.textAnchor "middle"
                    , Svg.Attributes.alignmentBaseline "middle"
                    , Svg.Attributes.fontFamily "monospace"
-                   , Svg.Attributes.fill "black"
+                   , Svg.Attributes.fill "#222"
                    , Svg.Attributes.style "pointer-events: none"
                    ]
   in
@@ -94,11 +94,6 @@ renderButton target width height x y color text enabled =
             [ background, label ]
   in
       Svg.g [] children
-
-
-renderTitle : (Int,Int) -> Svg Msg
-renderTitle (w,h) =
-  renderTextLine (w//2) (h//5) (h//13) "Live Sentence"
 
 
 renderWindowBackground : (Int,Int) -> String -> Svg Msg
