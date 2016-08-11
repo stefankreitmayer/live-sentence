@@ -48,18 +48,36 @@ renderRoomSelection {ui,parts} =
         Svg.svg
           (fullscreenSvgAttributes ui.windowSize)
           svgChildren
+      joinWidget = renderJoinWidget ui.windowSize ui.roomNotFoundMessageVisible
   in
       div
         []
-        [ svg, textInput, instructionsButton, createRoomButton ]
+        [ svg, joinWidget, instructionsButton, createRoomButton ]
 
 
-textInput : Html Msg
-textInput =
+renderJoinWidget : (Int,Int) -> Bool -> Html Msg
+renderJoinWidget (w,h) roomNotFoundMessageVisible =
+  let
+      posX = w//2 - 100 |> toString
+      posY = h*35//100 |> toString
+      textInput = renderTextInput
+      notFound = renderNotFoundMessage roomNotFoundMessageVisible
+      innerDiv =
+        div
+          [ Html.Attributes.attribute "style" "position: relative" ]
+          [ notFound, textInput ]
+  in
+      div
+        [ Html.Attributes.attribute "style" ("position: absolute; top: "++posY++"px; left: "++posX++"px") ]
+        [ innerDiv ]
+
+
+renderTextInput : Html Msg
+renderTextInput =
   let
       style =
-        "width: 100px; position: absolute; top: 35%; left: 50%; transform: translate(-50%); padding: 10px 0; font-size: 2em; text-align: center;"
-        |> Html.Attributes.attribute "style"
+        Html.Attributes.attribute "style"
+        "width: 100px; position: absolute; top: 0; left: 0; padding: 2px 0; font-family: monospace; font-size: 2em; text-align: center;"
   in
       Html.input
         [ Html.Attributes.placeholder "Key"
@@ -70,6 +88,22 @@ textInput =
         , Html.Attributes.maxlength 5
         , style ]
         []
+
+
+renderNotFoundMessage : Bool -> Html Msg
+renderNotFoundMessage visible =
+  let
+      height = 24
+      posY = toString <| if visible then -height else 2
+      style =
+        "position: absolute; top: "++posY++"px; left: 0; width: 200px; height: "++(height |> toString)++"px; padding: 0; font-family: monospace; font-size: 14px; text-align: center; background: #f46; transition: top .7s"
+        |> Html.Attributes.attribute "style"
+  in
+      div
+        [ style ]
+        -- [ Html.text "Please type a valid key"]
+        -- [ Html.text "No room with this key"]
+        [ Html.text "This room doesn't exist"]
 
 
 renderTitle : (Int,Int) -> Svg Msg

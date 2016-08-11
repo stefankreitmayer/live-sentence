@@ -36,7 +36,8 @@ update action ({ui} as model) =
                       requestToJoin lowercaseRoomkey
                    else
                       Cmd.none
-          ui' = { ui | userEnteredRoomkey=lowercaseRoomkey }
+          ui' = { ui | userEnteredRoomkey = lowercaseRoomkey
+                     , roomNotFoundMessageVisible = False }
       in
          ({ model | ui = ui' }, effect)
 
@@ -54,6 +55,7 @@ update action ({ui} as model) =
         Denied ->
           let
               ui' = { ui | errorMessage = Just "Room not found"
+                         , roomNotFoundMessageVisible = True
                          , requestToCreatePending = False }
           in
               ({ model | ui = ui' }, Cmd.none)

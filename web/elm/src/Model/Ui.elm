@@ -10,6 +10,7 @@ type alias Ui =
   , requestToCreatePending : Bool
   , instructionsVisible : Bool
   , instructionsButtonEverPressed : Bool -- suppress initial slide animation
+  , roomNotFoundMessageVisible : Bool
   , errorMessage : Maybe String }
 
 type Screen
@@ -27,4 +28,5 @@ initialUi =
   , requestToCreatePending = False
   , instructionsVisible = False
   , instructionsButtonEverPressed = False
+  , roomNotFoundMessageVisible = False
   , errorMessage = Nothing }
