@@ -1,4 +1,4 @@
-module Join exposing (requestToJoin,requestToCreate)
+module Join exposing (sendRequestToJoin,sendRequestToCreate)
 
 import Http
 import Task
@@ -7,8 +7,8 @@ import Json.Decode as Decode exposing (Decoder,(:=))
 import Msg exposing (..)
 
 
-requestToJoin : String -> Cmd Msg
-requestToJoin roomkey =
+sendRequestToJoin : String -> Cmd Msg
+sendRequestToJoin roomkey =
   let
       url = "/api/join?roomkey=" ++ roomkey
   in
@@ -16,8 +16,8 @@ requestToJoin roomkey =
       |> Task.perform JoinError JoinAcceptedOrDenied
 
 
-requestToCreate : Cmd Msg
-requestToCreate =
+sendRequestToCreate : Cmd Msg
+sendRequestToCreate =
   let
       url = "/api/create"
   in
