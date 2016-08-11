@@ -12,6 +12,8 @@ import Msg exposing (..)
 import Join exposing (..)
 import Poll exposing (pullData,updateData)
 
+import Ports exposing (..)
+
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update action ({ui} as model) =
@@ -129,8 +131,12 @@ requestJoin ({ui} as model) =
   let
       ui' = { ui | requestToJoinPending = True
                  , joinErrorMessage = Nothing }
+      effects =
+        [ sendRequestToJoin ui.userEnteredRoomkey
+        , setfocus "#roomkey-input" ]
+        |> Cmd.batch
   in
-     ({ model | ui = ui' }, sendRequestToJoin ui.userEnteredRoomkey)
+     ({ model | ui = ui' }, effects)
 
 
 handleJoinVerdict : JoinVerdict -> Model -> (Model, Cmd Msg)

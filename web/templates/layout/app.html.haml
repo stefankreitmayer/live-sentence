@@ -25,4 +25,10 @@
     %script(type="text/javascript")
       <!--
       var app = Elm.Main.fullscreen();
+
+      app.ports.setfocus.subscribe(function(id){
+        setTimeout(function(){
+          document.getElementById(id).focus();
+        }, 300);
+      });
       //-->

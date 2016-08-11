@@ -86,7 +86,8 @@ renderTextInput =
         "width: 100px; position: absolute; top: 0; left: 0; padding: 2px 0; font-family: monospace; font-size: 2em; text-align: center;"
   in
       Html.input
-        [ Html.Attributes.placeholder "Key"
+        [ Html.Attributes.id "#roomkey-input"
+        , Html.Attributes.placeholder "Key"
         , Html.Events.onInput (\v -> TypeRoomkey v)
         , Html.Attributes.autofocus True
         , Html.Attributes.autocomplete False
