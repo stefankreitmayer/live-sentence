@@ -15,13 +15,21 @@ import Model.Part exposing (..)
 -- for black text. probably not colorblind safe
 palette : List String
 palette =
-  [ "#ef476f"
+  [ happyRed
   , "#ffd166"
   , "#06d6a0"
-  , "#149ecc" -- originally "#118ab2" but that was found too dark for black text
-  , "#073b4c"
+  , happyBlue -- originally "#118ab2" but that was found too dark for black text
+  , happyDark
   ]
 
+happyRed : String
+happyRed = "#ef476f"
+
+happyBlue : String
+happyBlue = "#149ecc"
+
+happyDark : String
+happyDark = "#073b4c"
 
 -- -- pretty but probably not colorblind safe
 -- palette : List String

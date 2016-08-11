@@ -7,6 +7,7 @@ type alias Ui =
   { windowSize : (Int, Int)
   , screen : Screen
   , userEnteredRoomkey : String
+  , requestToJoinPending : Bool
   , requestToCreatePending : Bool
   , instructionsVisible : Bool
   , instructionsButtonEverPressed : Bool -- suppress initial slide animation
@@ -25,6 +26,7 @@ initialUi =
   { windowSize = (500,500)
   , screen = RoomSelection
   , userEnteredRoomkey = ""
+  , requestToJoinPending = False
   , requestToCreatePending = False
   , instructionsVisible = False
   , instructionsButtonEverPressed = False

@@ -14,7 +14,8 @@ import Model.Part exposing (..)
 type Msg
   = ResizeWindow (Int,Int)
   | CreateRoom
-  | EnterRoomkey String
+  | TypeRoomkey String
+  | PressEnterButton
   | JoinAcceptedOrDenied JoinVerdict
   | JoinError Http.Error
   | ChangeScreen Screen

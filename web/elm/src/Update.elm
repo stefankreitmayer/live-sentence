@@ -29,36 +29,28 @@ update action ({ui} as model) =
       in
          ({ model | ui = ui' }, requestToCreate)
 
-    EnterRoomkey userEnteredRoomkey ->
+    TypeRoomkey key ->
       let
-          lowercaseRoomkey = String.toLower userEnteredRoomkey
-          effect = if (String.length lowercaseRoomkey) == roomkeyLength then
-                      requestToJoin lowercaseRoomkey
-                   else
-                      Cmd.none
+          lowercaseRoomkey = String.toLower key
           ui' = { ui | userEnteredRoomkey = lowercaseRoomkey
                      , roomNotFoundMessageVisible = False }
       in
-         ({ model | ui = ui' }, effect)
+         ({ model | ui = ui' }, Cmd.none)
+
+    PressEnterButton ->
+      let
+          ui' = { ui | requestToJoinPending = True
+                     , roomNotFoundMessageVisible = False }
+      in
+         ({ model | ui = ui' }, requestToJoin ui.userEnteredRoomkey)
+
 
     JoinAcceptedOrDenied verdict ->
-      case verdict of
-        Accepted roomkey ->
-          let
-              ui' = { ui | screen = RoleSelection
-                         , requestToCreatePending = False }
-              model' = { model | acceptedRoomkey = Just roomkey
-                               , ui = ui' }
-          in
-             (model', pullData roomkey)
-
-        Denied ->
-          let
-              ui' = { ui | errorMessage = Just "Room not found"
-                         , roomNotFoundMessageVisible = True
-                         , requestToCreatePending = False }
-          in
-              ({ model | ui = ui' }, Cmd.none)
+      let
+          ui' = { ui | requestToJoinPending = False
+                     , requestToCreatePending = False }
+      in
+          handleJoinVerdict verdict { model | ui = ui' }
 
     JoinError httpError ->
       let
@@ -146,3 +138,30 @@ pullIfJoined {acceptedRoomkey} =
 
     Just roomkey ->
       pullData roomkey
+
+
+handleJoinVerdict : JoinVerdict -> Model -> (Model, Cmd Msg)
+handleJoinVerdict verdict ({ui} as model) =
+  case verdict of
+    Accepted roomkey ->
+      joinRoom roomkey model
+
+    Denied ->
+      let
+          ui' = { ui | errorMessage = Just "Room not found"
+                     , roomNotFoundMessageVisible = True }
+      in
+          ({ model | ui = ui' }, Cmd.none)
+
+
+joinRoom : String -> Model -> (Model, Cmd Msg)
+joinRoom roomkey ({ui} as model) =
+  let
+      ui' = { ui | screen = RoleSelection
+                 , requestToJoinPending = False
+                 , requestToCreatePending = False
+                 , userEnteredRoomkey = "" }
+      model' = { model | acceptedRoomkey = Just roomkey
+                       , ui = ui' }
+  in
+     (model', pullData roomkey)

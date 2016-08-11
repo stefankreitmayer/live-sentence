@@ -14,6 +14,7 @@ import Model.Ui exposing (..)
 import Model.Part exposing (..)
 
 import View.Common exposing (..)
+import View.Palette exposing (..)
 
 import Msg exposing (..)
 
@@ -24,13 +25,13 @@ renderRoomSelection {ui,parts} =
       (w,h) = ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
       title = renderTitle ui.windowSize
-      enterRoomKey = renderTextLine (w//2) (h*28//100) (w//12 |> min 24) "middle" "Join a room"
+      typeRoomKey = renderTextLine (w//2) (h*28//100) (w//12 |> min 24) "middle" "Join a room"
       buttonFontSize = (w//12 |> min 24 |> toString) ++ "px"
       createRoomButton =
         Html.button
           [ Html.Events.onClick CreateRoom
           , Html.Attributes.attribute "style"
-            <| "position: absolute; top: 65%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: #59e; color: #222; border: none"
+            <| "position: absolute; top: 65%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: "++happyBlue++"; color: #222; border: none"
           ]
           [ Html.text "Make a room" ]
         |> centered
@@ -43,29 +44,34 @@ renderRoomSelection {ui,parts} =
           [ Html.text "Instructions" ]
         |> centered
       svgChildren =
-          [ bg, title, enterRoomKey ]
+          [ bg, title, typeRoomKey ]
       svg =
         Svg.svg
           (fullscreenSvgAttributes ui.windowSize)
           svgChildren
-      joinWidget = renderJoinWidget ui.windowSize ui.roomNotFoundMessageVisible
+      joinWidget =
+        renderJoinWidget
+          ui.windowSize
+          ui.roomNotFoundMessageVisible
+          ui.requestToJoinPending
   in
       div
         []
         [ svg, joinWidget, instructionsButton, createRoomButton ]
 
 
-renderJoinWidget : (Int,Int) -> Bool -> Html Msg
-renderJoinWidget (w,h) roomNotFoundMessageVisible =
+renderJoinWidget : (Int,Int) -> Bool -> Bool -> Html Msg
+renderJoinWidget (w,h) roomNotFoundMessageVisible requestPending =
   let
       posX = w//2 - 100 |> toString
-      posY = h*35//100 |> toString
+      posY = h*37//100 |> toString
       textInput = renderTextInput
       notFound = renderNotFoundMessage roomNotFoundMessageVisible
+      enterbutton = renderEnterButton requestPending
       innerDiv =
         div
           [ Html.Attributes.attribute "style" "position: relative" ]
-          [ notFound, textInput ]
+          [ notFound, textInput, enterbutton ]
   in
       div
         [ Html.Attributes.attribute "style" ("position: absolute; top: "++posY++"px; left: "++posX++"px") ]
@@ -81,7 +87,7 @@ renderTextInput =
   in
       Html.input
         [ Html.Attributes.placeholder "Key"
-        , Html.Events.onInput (\v -> EnterRoomkey v)
+        , Html.Events.onInput (\v -> TypeRoomkey v)
         , Html.Attributes.autofocus True
         , Html.Attributes.autocomplete False
         , Html.Attributes.spellcheck False
@@ -90,13 +96,32 @@ renderTextInput =
         []
 
 
+renderEnterButton : Bool -> Html Msg
+renderEnterButton requestPending =
+  let
+      color = if requestPending then "#6ce" else happyBlue
+      style =
+        Html.Attributes.attribute "style"
+        ("width: 100px; position: absolute; top: 0; left: 100px; padding: 2px 0; font-family: monospace; font-size: 2em; text-align: center; background: "++color++"; border: none")
+      clickHandler =
+        if requestPending then
+            []
+        else
+            [ Html.Events.onClick PressEnterButton ]
+      attributes = style :: clickHandler
+  in
+      Html.button
+        attributes
+        [ Html.text "Enter" ]
+
+
 renderNotFoundMessage : Bool -> Html Msg
 renderNotFoundMessage visible =
   let
       height = 24
       posY = toString <| if visible then -height else 2
       style =
-        "position: absolute; top: "++posY++"px; left: 0; width: 200px; height: "++(height |> toString)++"px; padding: 0; font-family: monospace; font-size: 14px; text-align: center; background: #f46; transition: top .7s"
+        "position: absolute; top: "++posY++"px; left: 0; width: 200px; height: "++(height |> toString)++"px; padding: 0; font-family: monospace; font-size: 14px; text-align: center; background: "++happyRed++"; transition: top .7s"
         |> Html.Attributes.attribute "style"
   in
       div

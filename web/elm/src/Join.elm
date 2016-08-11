@@ -1,14 +1,10 @@
-module Join exposing (roomkeyLength,requestToJoin,requestToCreate)
+module Join exposing (requestToJoin,requestToCreate)
 
 import Http
 import Task
 import Json.Decode as Decode exposing (Decoder,(:=))
 
 import Msg exposing (..)
-
-
-roomkeyLength : Int
-roomkeyLength = 4
 
 
 requestToJoin : String -> Cmd Msg
