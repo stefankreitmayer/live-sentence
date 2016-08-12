@@ -147,7 +147,18 @@ renderNotFoundMessage message =
 
 renderTitle : (Int,Int) -> Svg Msg
 renderTitle (w,h) =
-  renderTextLine (w//2) (h//10) (w*12//100) "middle" "Live Sentence"
+  let
+      text = renderTextLine (w//2) (h//10) (w*12//100) "middle" "Live Sentence"
+      colors = List.take 4 palette
+      rectangles =
+        List.indexedMap
+          (\i color -> renderRect (i*w//4) (h//7) (w//4) (h*4//100) color)
+          colors
+      underline = rectangles |> Svg.g []
+  in
+      Svg.g
+        []
+        [ underline, text ]
 
 
 onEnter fail success =
