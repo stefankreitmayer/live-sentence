@@ -28,7 +28,10 @@
 
       app.ports.setfocus.subscribe(function(id){
         setTimeout(function(){
-          document.getElementById(id).focus();
+          widget = document.getElementById(id);
+          if(widget!==null){
+            widget.focus();
+          }
         }, 300);
       });
       //-->

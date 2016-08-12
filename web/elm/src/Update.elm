@@ -131,12 +131,9 @@ requestJoin ({ui} as model) =
   let
       ui' = { ui | requestToJoinPending = True
                  , joinErrorMessage = Nothing }
-      effects =
-        [ sendRequestToJoin ui.userEnteredRoomkey
-        , setfocus "#roomkey-input" ]
-        |> Cmd.batch
+      effect = sendRequestToJoin ui.userEnteredRoomkey
   in
-     ({ model | ui = ui' }, effects)
+     ({ model | ui = ui' }, effect)
 
 
 handleJoinVerdict : JoinVerdict -> Model -> (Model, Cmd Msg)
@@ -153,8 +150,9 @@ handleJoinVerdict verdict ({ui} as model) =
             else
               Just "This room doesn't exist"
           ui' = { ui | joinErrorMessage = message }
+          effect = setfocus "#roomkey-input"
       in
-          ({ model | ui = ui' }, Cmd.none)
+          ({ model | ui = ui' }, effect)
 
 
 joinRoom : String -> Model -> (Model, Cmd Msg)
