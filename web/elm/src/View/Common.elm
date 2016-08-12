@@ -51,7 +51,6 @@ renderTextLine x y fontSize anchor text =
                    , Svg.Attributes.fontSize <| toString fontSize
                    , Svg.Attributes.textDecoration "none"
                    , Svg.Attributes.textAnchor anchor
-                   , Svg.Attributes.alignmentBaseline "middle"
                    , Svg.Attributes.fontFamily "monospace"
                    , Svg.Attributes.fill "#222"
                    , Svg.Attributes.style "pointer-events: none"
@@ -109,7 +108,7 @@ renderButton target width height x y color text enabled =
   let
       background = renderRect (x-width//2) (y-height*58//100) width height color
       fontSize = width * 3 // 2 // (String.length text) |> min (height*90//100)
-      label = renderTextLine x y fontSize "middle" text
+      label = renderTextLine x (y+fontSize//5) fontSize "middle" text
       children =
         if enabled then
             [ internalLink target [ background ], label ]

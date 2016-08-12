@@ -31,7 +31,7 @@ renderRoleSelection {ui,parts,acceptedRoomkey} =
         |> List.indexedMap (renderPartButton ui.windowSize parts)
       roomkey = Maybe.withDefault "" acceptedRoomkey
       roomInfo = renderRoomInfo h roomkey
-      instruction = renderTextLine (w//2) (h*26//100) (h*6//100) "middle" "Select a role"
+      instruction = renderTextLine (w//2) (h*30//100) (h*6//100) "middle" "Pick a role"
       leaveButton = renderLeaveButton ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
       svg =

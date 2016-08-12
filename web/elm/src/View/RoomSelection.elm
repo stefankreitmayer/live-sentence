@@ -26,13 +26,13 @@ renderRoomSelection {ui,parts} =
       (w,h) = ui.windowSize
       bg = renderWindowBackground ui.windowSize "#ddd"
       title = renderTitle ui.windowSize
-      typeRoomKey = renderTextLine (w//2) (h*28//100) (w//12 |> min 24) "middle" "Join a room"
       buttonFontSize = (w//12 |> min 24 |> toString) ++ "px"
+      translateX = "-ms-transform: translateX(-50%); -webkit-transform: translateX(-50%); transform: translateX(-50%);"
       createRoomButton =
         Html.button
           [ Html.Events.onClick CreateRoom
           , Html.Attributes.attribute "style"
-            <| "position: absolute; top: 65%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: "++happyBlue++"; color: #222; border: none"
+            <| "position: absolute; top: 65%; left: 50%;"++translateX++" width: 200px; font-size: "++buttonFontSize++"; font-family: monospace; padding: 10px 20px; background: "++happyBlue++"; color: #222; border: none"
           ]
           [ Html.text "Make a room" ]
         |> centered
@@ -40,12 +40,12 @@ renderRoomSelection {ui,parts} =
         Html.button
           [ Html.Events.onClick ShowInstructions
           , Html.Attributes.attribute "style"
-            <| "position: absolute; top: 88%; left: 50%; transform: translate(-50%); font-size: "++buttonFontSize++"; font-family: monospace; border: none"
+            <| "position: absolute; top: 88%; left: 50%;"++translateX++" width: 200px; font-size: "++buttonFontSize++"; font-family: monospace; border: none"
           ]
           [ Html.text "Instructions" ]
         |> centered
       svgChildren =
-          [ bg, title, typeRoomKey ]
+          [ bg, title ]
       svg =
         Svg.svg
           (fullscreenSvgAttributes ui.windowSize)
@@ -67,16 +67,30 @@ renderJoinWidget (w,h) message requestPending =
       posX = w//2 - 100 |> toString
       posY = h*37//100 |> toString
       textInput = renderTextInput
+      instruction = renderJoinInstruction
       notFound = renderNotFoundMessage message
       enterbutton = renderEnterButton requestPending
       innerDiv =
         div
           [ Html.Attributes.attribute "style" "position: relative" ]
-          [ notFound, textInput, enterbutton ]
+          [ instruction, notFound, textInput, enterbutton ]
   in
       div
         [ Html.Attributes.attribute "style" ("position: absolute; top: "++posY++"px; left: "++posX++"px") ]
         [ innerDiv ]
+
+
+renderJoinInstruction : Html Msg
+renderJoinInstruction =
+  let
+      style =
+        "position: absolute; top: -56px; left: 0; width: 200px; font-family: monospace; font-size: 24px; text-align: center"
+        |> Html.Attributes.attribute "style"
+      text = Html.text "Join a room"
+  in
+      div
+        [ style ]
+        [ text ]
 
 
 renderTextInput : Html Msg
@@ -148,7 +162,8 @@ renderNotFoundMessage message =
 renderTitle : (Int,Int) -> Svg Msg
 renderTitle (w,h) =
   let
-      text = renderTextLine (w//2) (h//10) (w*12//100) "middle" "Live Sentence"
+      fontSize = w*12//100 |> min (h//10)
+      text = renderTextLine (w//2) (h//10) fontSize "middle" "Live Sentence"
       colors = List.take 4 palette
       rectangles =
         List.indexedMap

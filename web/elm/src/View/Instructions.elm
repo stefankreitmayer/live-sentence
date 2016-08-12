@@ -57,9 +57,9 @@ renderSteps fontSize marginBetweenSteps =
 
 theSteps : List String
 theSteps =
-  """Click "Create a new room"
+  """Click "Make a room"
   Find the room key at the top, e.g. 5cy7
-  Invite a group of students to join the room by typing this key
+  Invite a group of students to join the room by typing the key
   Click "Whiteboard"
   Let the students pick different roles: subject, verb, ...
   Watch the whiteboard display change as students choose different words"""
