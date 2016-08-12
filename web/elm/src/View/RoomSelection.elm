@@ -2,8 +2,9 @@ module View.RoomSelection exposing (renderRoomSelection)
 
 import Html exposing (Html,div)
 import Html.Attributes
-import Html.Events
+import Html.Events exposing (on)
 import VirtualDom
+import Json.Decode as Dec
 import String
 
 import Svg exposing (Svg)
@@ -89,6 +90,7 @@ renderTextInput =
         [ Html.Attributes.id "#roomkey-input"
         , Html.Attributes.placeholder "Key"
         , Html.Events.onInput (\v -> TypeRoomkey v)
+        , onEnter NoOp PressEnterButton
         , Html.Attributes.autofocus True
         , Html.Attributes.autocomplete False
         , Html.Attributes.spellcheck False
@@ -146,3 +148,13 @@ renderNotFoundMessage message =
 renderTitle : (Int,Int) -> Svg Msg
 renderTitle (w,h) =
   renderTextLine (w//2) (h//10) (w*12//100) "middle" "Live Sentence"
+
+
+onEnter fail success =
+  let
+    checkCode : Int -> msg
+    checkCode code =
+      if code == 13 then success
+      else fail
+  in
+    on "keyup" (Dec.object1 checkCode Html.Events.keyCode)
