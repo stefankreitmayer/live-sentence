@@ -77,8 +77,8 @@ internalLink msg children =
     children
 
 
-menuButtonHtml : Html Msg
-menuButtonHtml =
+menuButtonHtml : Bool -> Html Msg
+menuButtonHtml positionFixed =
   let
       width = 80
       height = 60
@@ -93,12 +93,16 @@ menuButtonHtml =
           height
           []
           stripes
+      position =
+        if positionFixed then [ ("position","fixed"), ("z-index","2") ] else []
+      style =
+          [ ("background", "transparent")
+          , ("border", "none") ]
+          ++ position
   in
       Html.button
         [ Html.Events.onClick (ChangeScreen RoleSelection)
-        , Html.Attributes.style
-            [ ("background", "transparent")
-            , ("border", "none") ]
+        , Html.Attributes.style style
         ]
         [ svg ]
 

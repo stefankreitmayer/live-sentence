@@ -28,7 +28,7 @@ renderPartScreen part {parts,ui} =
       ws = w |> toString
       hs = h |> toString
       color = partColor parts part
-      menuButton = menuButtonHtml
+      menuButton = menuButtonHtml False
       atomButtons =
         part.atoms
         |> List.indexedMap (renderAtomButton ui.windowSize part part.atoms)

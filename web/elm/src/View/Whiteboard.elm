@@ -20,10 +20,10 @@ renderWhiteboard : Model -> Html Msg
 renderWhiteboard {ui,parts} =
   let
       partAreas = renderParts ui.windowSize (sentence parts)
-      menuButton = menuButtonHtml
+      menuButton = menuButtonHtml True
       svg = Svg.svg (fullscreenSvgAttributes ui.windowSize) [ partAreas ]
   in
-      div [] [ svg, menuButtonHtml ]
+      div [] [ menuButton, svg ]
 
 
 renderParts : (Int,Int) -> List Atom -> Svg Msg
