@@ -46,20 +46,9 @@ renderRoleSelection {ui,parts,acceptedRoomkey} =
 
 renderRoomInfo : Int -> String -> Html Msg
 renderRoomInfo h roomkey =
-  let
-      fontSize = 24
-      line1 =
-        div
-          [ Html.Attributes.attribute "style" ("position: fixed; top: -3px; left: 6px;") ]
-          [ Html.text "Room" ]
-      line2 =
-        div
-          [ Html.Attributes.attribute "style" ("position: fixed; top: 20px; left: 6px;") ]
-          [ Html.text roomkey ]
-  in
-      div
-        [ Html.Attributes.attribute "style" ("font-family: monospace; font-size: "++(fontSize |> toString)++"px") ]
-        [ line1, line2 ]
+  div
+    [ Html.Attributes.attribute "style" ("font-family: monospace; font-size: 24px; position: fixed; top: 2px; left: 7px;") ]
+    [ Html.text roomkey ]
 
 
 renderPartButton : (Int,Int) -> List Part -> Int -> Part -> Svg Msg
@@ -92,7 +81,7 @@ renderLeaveButton (w,h) =
       Html.button
         [ Html.Events.onClick LeaveRoom
         , Html.Attributes.attribute "style"
-          <| "position: absolute; top: 5px; right: 5px; font-size: 16px; font-family: monospace; padding: 10px 20px; background: #eee; color: #222; border: none"
+          <| "position: absolute; top: 5px; right: 5px; font-size: 16px; font-family: monospace; padding: 4px 10px; background: #eee; color: #222; border: none"
         ]
         [ Html.text "Leave this room" ]
       |> centered
